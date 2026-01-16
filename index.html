@@ -2,2314 +2,622 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#0b6efd">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="LaraApp7 - Multi Servicios de Transporte">
+    <meta name="theme-color" content="#10b981">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    
-    <!-- PWA Meta Tags -->
-    <meta name="description" content="Multi Servicios LARA - Gestión de Transporte Privado">
-    <link rel="manifest" href="manifest.json">
-    <link rel="icon" type="image/png" href="aa.jpg">
-    <link rel="apple-touch-icon" href="aa.jpg">
-
-    <style>
-        /* Estilos adicionales para mejorar la experiencia UX */
-        .ux-card {
-            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(51, 65, 85, 0.9) 100%);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 1rem;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
-
-        .ux-card-info {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.1) 100%);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            border-radius: 0.75rem;
-            padding: 1rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .ux-card-success {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-
-        .ux-card-warning {
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.1) 100%);
-            border: 1px solid rgba(245, 158, 11, 0.3);
-        }
-
-        .ux-card-error {
-            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-
-        .ux-btn-primary {
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-            color: white;
-            font-weight: 600;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.75rem;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .ux-btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
-        }
-
-        .ux-btn-secondary {
-            background: rgba(100, 116, 139, 0.1);
-            border: 1px solid rgba(100, 116, 139, 0.3);
-            color: #94a3b8;
-            font-weight: 500;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.75rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .ux-btn-secondary:hover {
-            background: rgba(100, 116, 139, 0.2);
-            border-color: rgba(100, 116, 139, 0.5);
-        }
-
-        .ux-input {
-            background: rgba(30, 41, 59, 0.8);
-            border: 1px solid rgba(100, 116, 139, 0.3);
-            color: #f1f5f9;
-            padding: 0.75rem;
-            border-radius: 0.5rem;
-            font-size: 1rem;
-            width: 100%;
-            transition: all 0.2s ease;
-        }
-
-        .ux-input:focus {
-            border-color: #3b82f6;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-    </style>
-    <title>Multi Servicios LARA</title>
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>LaraApp7 - Multi Servicios</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.0/lucide.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
-        :root { 
-            --primary: #3b82f6;
-            --bg: #0f172a;
-            --card-bg: #1e293b;
-            --text-color: #f1f5f9;
-        }
-        
-        [data-theme="light"] {
-            --bg: #f8fafc;
-            --card-bg: #ffffff;
-            --text-color: #0f172a;
-        }
-        
-        * { box-sizing: border-box; }
-        
-        body { 
-            background-color: var(--bg); 
-            color: var(--text-color); 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            margin: 0;
-            padding: 0;
-            padding-bottom: 85px;
-            transition: background-color 0.3s, color 0.3s;
-        }
-        
-        .glass { 
-            background: rgba(30, 41, 59, 0.9); 
-            backdrop-filter: blur(12px); 
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        [data-theme="light"] .glass {
-            background: rgba(255, 255, 255, 0.95);
-            border: 1px solid rgba(0,0,0,0.08);
-        }
-        
-        input, select, textarea, .ux-input {
-            background: rgba(30, 41, 59, 0.8);
-            border: 1px solid rgba(100, 116, 139, 0.3);
-            color: #f1f5f9;
-            padding: 0.75rem;
-            border-radius: 0.5rem;
-            font-size: 1rem;
-            width: 100%;
-            margin-bottom: 0.5rem;
-            transition: all 0.2s ease;
-        }
-
-        input:focus, select:focus, textarea:focus, .ux-input:focus {
-            border-color: #3b82f6;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-        
-        [data-theme="light"] input,
-        [data-theme="light"] select,
-        [data-theme="light"] textarea {
-            border: 1px solid #cbd5e1 !important;
-            background: #f8fafc !important;
-        }
-        
-        input:focus, select:focus, textarea:focus {
-            border-color: var(--primary) !important;
-            outline: none;
-        }
-        
-        textarea { min-height: 80px; resize: vertical; }
-
-        .btn-primary, .ux-btn-primary {
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-            color: white;
-            font-weight: 600;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.75rem;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            transition: all 0.2s ease;
-        }
-
-        .btn-primary:hover, .ux-btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
-        }
-        
-        .btn-primary:active { 
-            transform: scale(0.98);
-        }
-        
-        .btn-success {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-        }
-        
-        .btn-secondary, .ux-btn-secondary {
-            background: rgba(100, 116, 139, 0.1);
-            border: 1px solid rgba(100, 116, 139, 0.3);
-            color: #94a3b8;
-            font-weight: 500;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.75rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .btn-secondary:hover, .ux-btn-secondary:hover {
-            background: rgba(100, 116, 139, 0.2);
-            border-color: rgba(100, 116, 139, 0.5);
-        }
-
-        button {
-            transition: all 0.2s ease;
-            cursor: pointer;
-        }
-
-        button:hover {
-            opacity: 0.9;
-            transform: translateY(-1px);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        button:focus {
-            outline: 2px solid var(--primary);
-            outline-offset: 2px;
-        }
-
-        .nav-bar {
-            background: var(--card-bg);
-            border-top: 1px solid #334155;
-            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.2);
-            padding: 6px 4px;
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 3px;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: 40;
-        }
-        
-        [data-theme="light"] .nav-bar {
-            border-top: 1px solid #e2e8f0;
-        }
-        
-        .nav-btn { 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center;
-            font-size: 0.65rem; 
-            color: #94a3b8; 
-            padding: 8px 2px;
-            border: none; 
-            background: transparent;
-            border-radius: 10px;
-            min-height: 64px;
-            position: relative;
-            font-weight: 500;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        
-        .nav-btn:active { 
-            transform: scale(0.95); 
-        }
-        
-        .nav-active { 
-            color: white;
-            font-weight: bold;
-        }
-        
-        .nav-active::before {
-            content: '';
-            position: absolute;
-            inset: 2px;
-            background: linear-gradient(135deg, var(--primary) 0%, #1d4ed8 100%);
-            border-radius: 10px;
-            z-index: -1;
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
-        }
-        
-        .nav-btn .nav-icon {
-            font-size: 20px;
-            margin-bottom: 3px;
-        }
-
-        .card, .ux-card {
-            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(51, 65, 85, 0.9) 100%);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 1rem;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            transition: all 0.2s ease;
-        }
-
-        .ux-card-info {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.1) 100%);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-        }
-
-        .ux-card-success {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-
-        .ux-card-warning {
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.1) 100%);
-            border: 1px solid rgba(245, 158, 11, 0.3);
-        }
-
-        .ux-card-error {
-            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-        
-        [data-theme="light"] .card {
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-        
-        .card.clickable, .ux-card.clickable {
-            cursor: pointer;
-        }
-
-        .card.clickable:hover, .ux-card.clickable:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-        }
-
-        .card.clickable:active, .ux-card.clickable:active {
-            transform: translateY(0) scale(0.98);
-        }
-
-        #notification {
-            position: fixed;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #10b981;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 0 0 12px 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            z-index: 1001;
-            opacity: 0;
-            transition: opacity 0.3s;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            pointer-events: none;
-        }
-        
-        #notification.show {
-            opacity: 1;
-        }
-
-        .fab {
-            position: fixed;
-            bottom: 95px;
-            right: 20px;
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
-            z-index: 900;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        
-        .fab:active { 
-            transform: scale(0.95); 
-        }
-
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.75);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            padding: 1rem;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        
-        .modal-overlay.show {
-            display: flex;
-            opacity: 1;
-        }
-        
-        .modal-content {
-            background: var(--card-bg);
-            padding: 1.5rem;
-            border-radius: 1.25rem;
-            max-width: 420px;
-            width: 100%;
-            max-height: 85vh;
-            overflow-y: auto;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        [data-theme="light"] .modal-content {
-            border: 1px solid #e2e8f0;
-        }
-
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 1.25rem;
-        }
-        
-        .section-icon {
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            flex-shrink: 0;
-        }
-
-        /* TOGGLE DE TEMA */
-        .theme-switch {
-            position: relative;
-            display: inline-block;
-            width: 48px;
-            height: 26px;
-        }
-        
-        .theme-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        
-        .theme-slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-            transition: .3s;
-            border-radius: 34px;
-            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
-        }
-        
-        .theme-slider:before {
-            position: absolute;
-            content: "🌙";
-            height: 20px;
-            width: 20px;
-            left: 3px;
-            bottom: 3px;
-            background-color: white;
-            transition: .3s;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-        }
-        
-        input:checked + .theme-slider {
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-        }
-        
-        input:checked + .theme-slider:before {
-            transform: translateX(22px);
-            content: "☀️";
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        /* INDICADOR DE CARGA */
-        .loader-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-        }
-
-        .loader-overlay.show {
-            display: flex;
-        }
-
-        .loader {
-            width: 48px;
-            height: 48px;
-            border: 4px solid rgba(59, 130, 246, 0.2);
-            border-top-color: #3b82f6;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* GRÁFICOS */
-        .chart-container {
-            background: rgba(30, 41, 59, 0.9);
-            border-radius: 1rem;
-            padding: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .chart-bar {
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-            height: 100%;
-            border-radius: 0.25rem;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .chart-bar.ingreso {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        }
-
-        .chart-bar.gasto {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-        }
-
-        .chart-bar:hover {
-            transform: scaleY(1.05);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
-        }
-
-        /* BÚSQUEDA */
-        .search-box {
-            position: relative;
-            margin-bottom: 1rem;
-        }
-
-        .search-box input {
-            padding-left: 2.5rem;
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 0.75rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #64748b;
-            pointer-events: none;
-        }
-
-        label {
-            display: block;
-            font-size: 0.7rem;
-            font-weight: bold;
-            color: #94a3b8;
-            text-transform: uppercase;
-            margin-bottom: 4px;
-            letter-spacing: 0.5px;
-        }
-        
-        [data-theme="light"] label {
-            color: #64748b;
-        }
-
-        /* CALCULADORA */
-        .calculator {
-            background: var(--card-bg);
-            border-radius: 1rem;
-            padding: 1rem;
-            border: 2px solid #3b82f6;
-        }
-        
-        .calc-display {
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid #3b82f6;
-            border-radius: 0.5rem;
-            padding: 1rem;
-            text-align: right;
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-            color: var(--text-color);
-            min-height: 50px;
-        }
-        
-        .calc-buttons {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 0.5rem;
-        }
-        
-        .calc-btn {
-            padding: 1rem;
-            border-radius: 0.5rem;
-            border: none;
-            font-size: 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.1s;
-            background: rgba(100, 116, 139, 0.2);
-            color: var(--text-color);
-        }
-        
-        [data-theme="light"] .calc-btn {
-            background: #e2e8f0;
-        }
-        
-        .calc-btn:active {
-            transform: scale(0.95);
-        }
-        
-        .calc-btn.operator {
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-            color: white;
-        }
-        
-        .calc-btn.equals {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
-            grid-column: span 2;
-        }
-        
-        .calc-btn.clear {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-            color: white;
-        }
-
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: rgba(148, 163, 184, 0.3);
-            border-radius: 4px;
-        }
-
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        * { font-family: 'Inter', sans-serif; margin: 0; padding: 0; box-sizing: border-box; }
+        body { overflow-x: hidden; }
+        .dark { color-scheme: dark; }
     </style>
 </head>
 <body>
+    <div id="root"></div>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+        const { useState, useEffect } = React;
 
-    <!-- INDICADOR DE CARGA -->
-    <div id="loader-overlay" class="loader-overlay">
-        <div class="loader"></div>
-    </div>
+        const Icons = {
+            Home: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>,
+            DollarSign: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>,
+            Calendar: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>,
+            Users: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>,
+            FileText: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>,
+            Settings: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>,
+            Plus: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>,
+            Trash2: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>,
+            Check: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>,
+            Moon: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>,
+            Sun: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>,
+            Camera: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>,
+            LogOut: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>,
+            Edit2: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+        };
 
-    <!-- NOTIFICACIÓN -->
-    <div id="notification"></div>
-
-    <!-- PANTALLA DE BIENVENIDA -->
-    <div id="welcome" class="fixed inset-0 z-50 flex flex-col items-center justify-center p-6 text-center overflow-hidden">
-        <!-- Fondo premium con múltiples capas -->
-        <div class="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950"></div>
-        <div class="absolute inset-0 bg-gradient-to-tr from-blue-900/20 via-transparent to-emerald-900/20"></div>
-
-        <!-- Partículas decorativas animadas -->
-        <div class="absolute inset-0 overflow-hidden">
-            <div class="absolute top-1/4 left-1/4 w-2 h-2 bg-blue-400 rounded-full opacity-60 animate-pulse" style="animation-delay: 0s;"></div>
-            <div class="absolute top-3/4 right-1/4 w-1 h-1 bg-emerald-400 rounded-full opacity-40 animate-pulse" style="animation-delay: 1s;"></div>
-            <div class="absolute top-1/2 left-3/4 w-1.5 h-1.5 bg-purple-400 rounded-full opacity-50 animate-pulse" style="animation-delay: 2s;"></div>
-            <div class="absolute bottom-1/4 left-1/3 w-1 h-1 bg-cyan-400 rounded-full opacity-30 animate-pulse" style="animation-delay: 0.5s;"></div>
-            <div class="absolute top-1/3 right-1/3 w-2 h-2 bg-indigo-400 rounded-full opacity-70 animate-pulse" style="animation-delay: 1.5s;"></div>
-        </div>
-
-        <!-- Elementos decorativos con blur -->
-        <div class="absolute inset-0 opacity-30">
-            <div class="absolute top-20 left-10 w-40 h-40 bg-gradient-to-br from-blue-500/30 to-cyan-500/20 rounded-full blur-3xl animate-pulse"></div>
-            <div class="absolute bottom-32 right-10 w-32 h-32 bg-gradient-to-br from-emerald-500/25 to-teal-500/15 rounded-full blur-2xl animate-pulse" style="animation-delay: 1s;"></div>
-            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-gradient-to-br from-purple-500/20 to-pink-500/10 rounded-full blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
-            <div class="absolute top-10 right-20 w-24 h-24 bg-gradient-to-br from-indigo-500/25 to-blue-500/15 rounded-full blur-xl animate-pulse" style="animation-delay: 0.5s;"></div>
-        </div>
-
-        <div class="relative z-10 flex flex-col items-center w-full max-w-md mx-auto">
-            <!-- Logo premium con efectos avanzados -->
-            <div class="relative mb-10 group">
-                <!-- Círculos concéntricos decorativos -->
-                <div class="absolute inset-0 scale-110 opacity-20">
-                    <div class="w-full h-full bg-gradient-to-br from-white/10 to-transparent rounded-full animate-spin" style="animation-duration: 20s;"></div>
-                </div>
-                <div class="absolute inset-0 scale-125 opacity-10">
-                    <div class="w-full h-full bg-gradient-to-br from-blue-400/20 to-transparent rounded-full animate-spin" style="animation-duration: 15s; animation-direction: reverse;"></div>
-                </div>
-
-                <!-- Contenedor principal del logo -->
-                <div class="relative w-44 h-44 bg-gradient-to-br from-white/95 via-slate-50/90 to-white/95 backdrop-blur-xl p-6 rounded-3xl shadow-2xl border border-white/20 flex items-center justify-center transform group-hover:scale-105 transition-all duration-500 group-hover:shadow-blue-500/25">
-                    <img id="welcome-logo" src="aa.jpg" alt="Logo" class="w-32 h-32 object-contain rounded-2xl shadow-lg">
-                    <div class="text-7xl hidden">🚗</div>
-
-                    <!-- Efecto de brillo interno -->
-                    <div class="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                </div>
-
-                <!-- Glow effects mejorados -->
-                <div class="absolute inset-0 bg-gradient-to-br from-blue-400/30 via-cyan-400/20 to-purple-500/30 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-
-.01" class="flex-1">
-                    <button onclick="openCalculator('viaje-monto')" class="bg-blue-500 hover:bg-blue-600 text-white px-4 rounded-lg">
-                        🧮
-                    </button>
-                </div>
-                
-                <label>Estado</label>
-                <select id="viaje-estado" class="mb-4">
-                    <option value="Cotización">📄 Cotización</option>
-                    <option value="Programado">📅 Programado</option>
-                    <option value="Realizado">✅ Realizado</option>
-                </select>
-                
-                <label>Condición</label>
-                <input type="text" id="viaje-condicion" placeholder="Ej: Pago contra entrega" class="mb-4">
-                
-                <label>Detalle</label>
-                <textarea id="viaje-detalle" placeholder="Detalles adicionales..." class="mb-4"></textarea>
-                
-                <button onclick="saveViaje()" class="btn-primary w-full">
-                    GUARDAR VIAJE
-                </button>
-            </div>
-        </section>
-
-        <section id="sec-historial-viajes" class="hidden space-y-4">
-            <div class="section-header">
-                <div class="section-icon bg-orange-500">🗺️</div>
-                <h2 class="text-xl font-bold text-blue-400">Historial de Viajes</h2>
-            </div>
-
-            <div class="card border-2 border-blue-500">
-                <button onclick="nav('viajes')" class="w-full flex items-center justify-center gap-3 text-blue-400 font-bold py-4">
-                    <div class="bg-blue-500 p-3 rounded-xl text-white">➕</div>
-                    <span>Nuevo Viaje</span>
-                </button>
-            </div>
-            
-            <div id="viajes-list"></div>
-        </section>
-
-        <section id="sec-diezmos" class="hidden space-y-4">
-            <div class="section-header">
-                <div class="section-icon bg-emerald-500">💚</div>
-                <div class="flex-1">
-                    <h2 class="text-xl font-bold text-blue-400">Diezmos</h2>
-                </div>
-                <button onclick="nav('historial-diezmos')" class="btn-primary bg-gradient-to-r from-teal-500 to-cyan-600 flex items-center gap-2">
-                    📜 Historial
-                </button>
-            </div>
-            
-            <div class="card">
-                <div class="grid grid-cols-2 gap-2 mb-3">
-                    <div>
-                        <label>Mes</label>
-                        <input type="month" id="diezmo-month" onchange="calcularDiezmo()">
-                    </div>
-                    <div>
-                        <label>Quincena</label>
-                        <select id="diezmo-quincena" onchange="calcularDiezmo()">
-                            <option value="1">1ra (1-15)</option>
-                            <option value="2">2da (16-Fin)</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            
-            <div id="diezmo-info" class="card bg-blue-900/20 border-blue-500/30"></div>
-            
-            <div class="card">
-                <label>Método de Pago</label>
-                <select id="diezmo-metodo" class="mb-4">
-                    <option value="Efectivo">💵 Efectivo</option>
-                    <option value="Transferencia">💳 Transferencia</option>
-                </select>
-                
-                <label>Monto a Pagar (Q)</label>
-                <div class="flex gap-2 mb-4">
-                    <input type="number" id="diezmo-monto" placeholder="0.00" step="0.01" class="flex-1">
-                    <button onclick="openCalculator('diezmo-monto')" class="bg-blue-500 hover:bg-blue-600 text-white px-4 rounded-lg">
-                        🧮
-                    </button>
-                </div>
-                
-                <button onclick="saveDiezmo()" class="btn-primary bg-gradient-to-r from-emerald-500 to-teal-600 w-full font-bold py-4 text-lg">
-                    💰 REGISTRAR PAGO
-                </button>
-            </div>
-        </section>
-
-        <section id="sec-historial-diezmos" class="hidden space-y-4">
-            <div class="section-header">
-                <div class="section-icon bg-teal-500">📜</div>
-                <div class="flex-1">
-                    <h2 class="text-xl font-bold text-blue-400">Historial de Pagos</h2>
-                </div>
-                <button onclick="nav('diezmos')" class="btn-secondary flex items-center gap-2">
-                    <span>← Volver</span>
-                </button>
-            </div>
-            <div id="diezmos-list"></div>
-        </section>
-
-        <section id="sec-resumen" class="hidden space-y-4">
-            <div class="section-header">
-                <div class="section-icon bg-pink-500">📈</div>
-                <h2 class="text-xl font-bold text-blue-400">Resumen General</h2>
-            </div>
-
-            <div class="card">
-                <h3 class="text-sm font-bold text-blue-400 mb-4 uppercase flex items-center gap-2">
-                    📊 Últimos 6 Meses
-                </h3>
-                <div id="simple-chart" class="space-y-2"></div>
-            </div>
-
-            <div id="resumen-container"></div>
-
-            <div class="card">
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="bg-purple-500 p-3 rounded-xl">⚙️</div>
-                    <h3 class="text-lg font-bold text-purple-400">Herramientas</h3>
-                </div>
-                <div class="space-y-3">
-                    <button onclick="exportToExcel()" class="btn-primary bg-gradient-to-r from-green-500 to-emerald-600 w-full">
-                        📊 Exportar Excel
-                    </button>
-                    <button onclick="exportJSON()" class="btn-primary bg-gradient-to-r from-slate-500 to-slate-700 w-full">
-                        💾 Respaldar Datos
-                    </button>
-                    <input type="file" id="import-file" class="hidden" accept=".json" onchange="importJSON(event)">
-                    <button onclick="document.getElementById('import-file').click()" class="btn-primary bg-gradient-to-r from-slate-500 to-slate-700 w-full">
-                        📥 Importar Respaldo
-                    </button>
-                </div>
-            </div>
-
-            <div class="card bg-red-500/20 border-2 border-red-500/30">
-                <button onclick="borrarTodo()" class="w-full text-red-400 hover:text-red-300 text-sm py-3 font-bold transition-colors flex items-center justify-center gap-2">
-                    🗑️ BORRAR TODOS LOS DATOS
-                </button>
-            </div>
-        </section>
-    </main>
-
-    <nav class="nav-bar">
-        <button onclick="nav('inicio')" id="n-inicio" class="nav-btn nav-active">
-            <span class="nav-icon">🏠</span>
-            <span>Home</span>
-        </button>
-        <button onclick="nav('historial-registros')" id="n-registros" class="nav-btn">
-            <span class="nav-icon">📝</span>
-            <span>Registro</span>
-        </button>
-        <button onclick="nav('historial-viajes')" id="n-viajes" class="nav-btn">
-            <span class="nav-icon">🚗</span>
-            <span>Viajes</span>
-        </button>
-        <button onclick="nav('diezmos')" id="n-diezmos" class="nav-btn">
-            <span class="nav-icon">💚</span>
-            <span>Diezmo</span>
-        </button>
-        <button onclick="nav('resumen')" id="n-resumen" class="nav-btn">
-            <span class="nav-icon">📈</span>
-            <span>Resumen</span>
-        </button>
-    </nav>
-
-    <div id="modal-calculator" class="modal-overlay">
-        <div class="modal-content">
-            <h3 class="text-xl font-bold text-blue-400 mb-4">🧮 Calculadora</h3>
-            <div class="calculator">
-                <div class="calc-display" id="calc-display">0</div>
-                <div class="calc-buttons">
-                    <button class="calc-btn clear" onclick="calcClear()">C</button>
-                    <button class="calc-btn" onclick="calcBackspace()">⌫</button>
-                    <button class="calc-btn operator" onclick="calcAppend('/')">÷</button>
-                    <button class="calc-btn operator" onclick="calcAppend('*')">×</button>
-                    
-                    <button class="calc-btn" onclick="calcAppend('7')">7</button>
-                    <button class="calc-btn" onclick="calcAppend('8')">8</button>
-                    <button class="calc-btn" onclick="calcAppend('9')">9</button>
-                    <button class="calc-btn operator" onclick="calcAppend('-')">-</button>
-                    
-                    <button class="calc-btn" onclick="calcAppend('4')">4</button>
-                    <button class="calc-btn" onclick="calcAppend('5')">5</button>
-                    <button class="calc-btn" onclick="calcAppend('6')">6</button>
-                    <button class="calc-btn operator" onclick="calcAppend('+')">+</button>
-                    
-                    <button class="calc-btn" onclick="calcAppend('1')">1</button>
-                    <button class="calc-btn" onclick="calcAppend('2')">2</button>
-                    <button class="calc-btn" onclick="calcAppend('3')">3</button>
-                    <button class="calc-btn" onclick="calcAppend('.')">.</button>
-                    
-                    <button class="calc-btn" onclick="calcAppend('0')">0</button>
-                    <button class="calc-btn equals" onclick="calcEquals()">OK</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div id="modal-edit-registro" class="modal-overlay">
-        <div class="modal-content">
-            <h3 class="text-xl font-bold text-blue-400 mb-4">✏️ Editar Registro</h3>
-            <form onsubmit="updateRegistro(event)">
-                <label>Tipo</label>
-                <select id="edit-reg-tipo">
-                    <option value="Ingreso">🟢 Ingreso</option>
-                    <option value="Gasto">🔴 Gasto</option>
-                </select>
-                
-                <label>Fecha</label>
-                <input type="date" id="edit-reg-fecha">
-                
-                <label>Monto</label>
-                <div class="flex gap-2">
-                    <input type="number" id="edit-reg-monto" step="0.01" class="flex-1">
-                    <button type="button" onclick="openCalculator('edit-reg-monto')" class="bg-blue-500 text-white px-4 rounded-lg">
-                        🧮
-                    </button>
-                </div>
-                
-                <label>Categoría</label>
-                <select id="edit-reg-categoria"></select>
-                
-                <label>Detalle</label>
-                <textarea id="edit-reg-detalle"></textarea>
-                
-                <div class="flex gap-2 mt-4">
-                    <button type="button" onclick="closeModal('modal-edit-registro')" class="btn-secondary flex-1">
-                        Cancelar
-                    </button>
-                    <button type="submit" class="btn-primary flex-1">
-                        Guardar
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div id="modal-edit-viaje" class="modal-overlay">
-        <div class="modal-content">
-            <h3 class="text-xl font-bold text-blue-400 mb-4">✏️ Editar Viaje</h3>
-            <form onsubmit="updateViaje(event)">
-                <label>Fecha</label>
-                <input type="date" id="edit-viaje-fecha">
-                
-                <label>Cliente</label>
-                <input type="text" id="edit-viaje-cliente">
-                
-                <label>Origen</label>
-                <input type="text" id="edit-viaje-inicio">
-                
-                <label>Destino</label>
-                <input type="text" id="edit-viaje-fin">
-                
-                <label>Monto</label>
-                <div class="flex gap-2">
-                    <input type="number" id="edit-viaje-monto" step="0.01" class="flex-1">
-                    <button type="button" onclick="openCalculator('edit-viaje-monto')" class="bg-blue-500 text-white px-4 rounded-lg">
-                        🧮
-                    </button>
-                </div>
-                
-                <label>Estado</label>
-                <select id="edit-viaje-estado">
-                    <option value="Cotización">📄 Cotización</option>
-                    <option value="Programado">📅 Programado</option>
-                    <option value="Realizado">✅ Realizado</option>
-                </select>
-                
-                <label>Condición</label>
-                <input type="text" id="edit-viaje-condicion">
-                
-                <label>Detalle</label>
-                <textarea id="edit-viaje-detalle"></textarea>
-                
-                <div class="flex gap-2 mt-4">
-                    <button type="button" onclick="closeModal('modal-edit-viaje')" class="btn-secondary flex-1">
-                        Cancelar
-                    </button>
-                    <button type="submit" class="btn-primary flex-1">
-                        Guardar
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div id="modal-filtros" class="modal-overlay">
-        <div class="modal-content">
-            <h3 class="text-xl font-bold text-blue-400 mb-4">🔍 Filtros Avanzados</h3>
-            <label>Categoría</label>
-            <select id="filter-categoria">
-                <option value="">Todas</option>
-            </select>
-            
-            <label>Tipo</label>
-            <select id="filter-tipo">
-                <option value="">Todos</option>
-                <option value="Ingreso">🟢 Ingreso</option>
-                <option value="Gasto">🔴 Gasto</option>
-            </select>
-            
-            <label>Buscar en detalle</label>
-            <input type="text" id="filter-texto" placeholder="Palabras clave...">
-            
-            <div class="flex gap-2 mt-4">
-                <button onclick="clearFilters()" class="btn-secondary flex-1">
-                    🔄 Limpiar
-                </button>
-                <button onclick="applyFilters()" class="btn-primary flex-1">
-                    ✅ Aplicar
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div id="modal-nueva-categoria" class="modal-overlay">
-        <div class="modal-content">
-            <h3 class="text-lg font-bold text-blue-400 mb-4">➕ Nueva Categoría</h3>
-            <input type="text" id="nueva-categoria-nombre" placeholder="Nombre de la categoría">
-            <div class="flex gap-2 mt-4">
-                <button onclick="closeModal('modal-nueva-categoria')" class="btn-secondary flex-1">
-                    Cancelar
-                </button>
-                <button onclick="saveNuevaCategoria()" class="btn-primary flex-1">
-                    Añadir
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div id="modal-confirm-delete" class="modal-overlay">
-        <div class="modal-content max-w-sm">
-            <div class="text-center">
-                <div class="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                    ⚠️
-                </div>
-                <h3 class="text-xl font-bold text-red-400 mb-2">Eliminar</h3>
-                <p class="text-slate-300 mb-6">¿Seguro que deseas eliminar?</p>
-
-                <div class="flex gap-3">
-                    <button onclick="closeModal('modal-confirm-delete')" class="btn-secondary flex-1">
-                        Cancelar
-                    </button>
-                    <button onclick="confirmDelete()" class="btn-primary flex-1 bg-gradient-to-r from-red-500 to-red-600">
-                        Eliminar
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        let registros = [];
-        let viajes = [];
-        let diezmos = [];
-        let categorias = ["Sueldo", "Ventas", "Transporte", "Comida", "Vivienda", "Salud", "Uber Diario", "Renta Carro", "Mantenimiento", "Internet", "Gasolina", "Privado"];
-        let currentSection = 'inicio';
-        let editingId = null;
-        let currentFilters = {};
-        let navigationHistory = ['welcome'];
-        let calcTargetInput = null;
-        let calcExpression = '';
-        let searchQuery = '';
-        let deleteCallback = null;
-
-        function showLoader() {
-            document.getElementById('loader-overlay').classList.add('show');
-        }
-
-        function hideLoader() {
-            document.getElementById('loader-overlay').classList.remove('show');
-        }
-
-        function showDeleteConfirmation(callback) {
-            deleteCallback = callback;
-            document.getElementById('modal-confirm-delete').classList.add('show');
-        }
-
-        function confirmDelete() {
-            if (deleteCallback) {
-                deleteCallback();
-                deleteCallback = null;
-            }
-            closeModal('modal-confirm-delete');
-        }
-
-        const formatter = new Intl.NumberFormat('es-GT', { 
-            style: 'currency', 
-            currency: 'GTQ',
-            minimumFractionDigits: 2
-        });
-
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-        function closeWelcome() {
-            document.getElementById('welcome').style.display = 'none';
-            history.pushState({section: 'inicio'}, '', '#inicio');
-            navigationHistory.push('inicio');
-            loadData();
-            updateHomeResumen();
-            lucide.createIcons();
-        }
-
-        function nav(section, addToHistory = true) {
-            currentSection = section;
-            
-            document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden'));
-            document.getElementById('sec-' + section).classList.remove('hidden');
-            
-            const titles = {
-                'inicio': 'INICIO',
-                'registros': 'NUEVO REGISTRO',
-                'historial-registros': 'REGISTROS',
-                'viajes': 'NUEVO VIAJE',
-                'historial-viajes': 'VIAJES',
-                'diezmos': 'DIEZMOS',
-                'historial-diezmos': 'PAGOS',
-                'resumen': 'RESUMEN'
-            };
-            document.getElementById('section-title').textContent = titles[section] || 'LARA';
-            
-            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('nav-active'));
-            
-            let navButtonId = null;
-            if (section === 'inicio') navButtonId = 'n-inicio';
-            else if (section === 'historial-registros' || section === 'registros') navButtonId = 'n-registros';
-            else if (section === 'historial-viajes' || section === 'viajes') navButtonId = 'n-viajes';
-            else if (section === 'diezmos' || section === 'historial-diezmos') navButtonId = 'n-diezmos';
-            else if (section === 'resumen') navButtonId = 'n-resumen';
-            
-            if (navButtonId) {
-                const navBtn = document.getElementById(navButtonId);
-                if (navBtn) navBtn.classList.add('nav-active');
-            }
-            
-            if (section === 'inicio') updateHomeResumen();
-            if (section === 'registros') {
-                renderCategoriasSelect();
-                document.getElementById('reg-fecha').value = new Date().toISOString().split('T')[0];
-            }
-            if (section === 'historial-registros') renderRegistrosList();
-            if (section === 'viajes') document.getElementById('viaje-fecha').value = new Date().toISOString().split('T')[0];
-            if (section === 'historial-viajes') renderViajesList();
-            if (section === 'diezmos') initDiezmos();
-            if (section === 'historial-diezmos') renderDiezmosList();
-            if (section === 'resumen') renderResumen();
-            
-            lucide.createIcons();
-            
-            if (addToHistory) {
-                history.pushState({section: section}, '', '#' + section);
-                navigationHistory.push(section);
-            }
-        }
-
-        function toggleTheme() {
-            const body = document.body;
-            const isLight = body.getAttribute('data-theme') === 'light';
-
-            if (isLight) {
-                body.removeAttribute('data-theme');
-                localStorage.setItem('theme', 'dark');
-            } else {
-                body.setAttribute('data-theme', 'light');
-                localStorage.setItem('theme', 'light');
-            }
-            lucide.createIcons();
-        }
-
-        function showNotification(message, type = 'success') {
-            const notif = document.getElementById('notification');
-            notif.textContent = message;
-            notif.style.backgroundColor = type === 'success' ? '#10b981' : '#ef4444';
-            notif.classList.add('show');
-            setTimeout(() => {
-                notif.classList.remove('show');
-            }, 2500);
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('show');
-            editingId = null;
-            if (modalId === 'modal-confirm-delete') {
-                deleteCallback = null;
-            }
-        }
-
-        function openCalculator(targetInputId) {
-            calcTargetInput = targetInputId;
-            calcExpression = document.getElementById(targetInputId).value || '0';
-            document.getElementById('calc-display').textContent = calcExpression;
-            document.getElementById('modal-calculator').classList.add('show');
-        }
-
-        function calcAppend(value) {
-            if (calcExpression === '0' && value !== '.') {
-                calcExpression = value;
-            } else {
-                calcExpression += value;
-            }
-            document.getElementById('calc-display').textContent = calcExpression;
-        }
-
-        function calcClear() {
-            calcExpression = '0';
-            document.getElementById('calc-display').textContent = calcExpression;
-        }
-
-        function calcBackspace() {
-            calcExpression = calcExpression.slice(0, -1) || '0';
-            document.getElementById('calc-display').textContent = calcExpression;
-        }
-
-        function calcEquals() {
-            try {
-                const result = eval(calcExpression);
-                document.getElementById(calcTargetInput).value = result.toFixed(2);
-                closeModal('modal-calculator');
-                calcExpression = '0';
-            } catch (error) {
-                showNotification('❌ Expresión inválida', 'error');
-            }
-        }
-
-        function saveData() {
-            try {
-                showLoader();
-                if (!Array.isArray(registros)) registros = [];
-                if (!Array.isArray(viajes)) viajes = [];
-                if (!Array.isArray(diezmos)) diezmos = [];
-                if (!Array.isArray(categorias)) categorias = [];
-                
-                localStorage.setItem('lara_registros', JSON.stringify(registros));
-                localStorage.setItem('lara_viajes', JSON.stringify(viajes));
-                localStorage.setItem('lara_diezmos', JSON.stringify(diezmos));
-                localStorage.setItem('lara_categorias', JSON.stringify(categorias));
-                
-                const testRegistros = localStorage.getItem('lara_registros');
-                if (!testRegistros) {
-                    throw new Error('No se pudo verificar el guardado');
-                }
-                
-                hideLoader();
-            } catch (error) {
-                hideLoader();
-                console.error('Error al guardar:', error);
-                showNotification('❌ Error al guardar datos', 'error');
-                if (error.name === 'QuotaExceededError') {
-                    showNotification('⚠️ Espacio lleno. Exporta y limpia datos antiguos', 'error');
-                }
-            }
-        }
-
-        function loadData() {
-            try {
-                showLoader();
-                registros = JSON.parse(localStorage.getItem('lara_registros') || '[]');
-                viajes = JSON.parse(localStorage.getItem('lara_viajes') || '[]');
-                diezmos = JSON.parse(localStorage.getItem('lara_diezmos') || '[]');
-                const loadedCats = JSON.parse(localStorage.getItem('lara_categorias') || '[]');
-                if (loadedCats.length > 0) categorias = loadedCats;
-                hideLoader();
-            } catch (error) {
-                hideLoader();
-                console.error('Error al cargar datos:', error);
-                showNotification('⚠️ Error al cargar algunos datos', 'error');
-            }
-        }
-
-        function formatQ(n) {
-            return formatter.format(n).replace('GTQ', 'Q');
-        }
-
-        function formatDate(dateStr) {
-            const date = new Date(dateStr + 'T00:00:00');
-            return date.toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' });
-        }
-
-        function renderCategoriasSelect() {
-            const select = document.getElementById('reg-categoria');
-            select.innerHTML = categorias.map(c => `<option value="${c}">${c}</option>`).join('') +
-                '<option value="__nuevo__">➕ Agregar Nueva</option>';
-            
-            select.onchange = function() {
-                if (this.value === '__nuevo__') {
-                    document.getElementById('modal-nueva-categoria').classList.add('show');
-                    this.value = categorias[0];
-                }
-            };
-        }
-
-        function saveNuevaCategoria() {
-            const nombre = document.getElementById('nueva-categoria-nombre').value.trim();
-            if (nombre && !categorias.includes(nombre)) {
-                categorias.push(nombre);
-                saveData();
-                renderCategoriasSelect();
-                document.getElementById('reg-categoria').value = nombre;
-                showNotification('✅ Categoría agregada');
-            }
-            closeModal('modal-nueva-categoria');
-            document.getElementById('nueva-categoria-nombre').value = '';
-        }
-
-        function saveRegistro() {
-            const tipo = document.getElementById('reg-tipo').value;
-            const fecha = document.getElementById('reg-fecha').value;
-            const monto = parseFloat(document.getElementById('reg-monto').value);
-            const categoria = document.getElementById('reg-categoria').value;
-            const detalle = document.getElementById('reg-detalle').value.trim();
-            
-            if (!fecha || isNaN(monto) || monto <= 0) {
-                showNotification('❌ Completa todos los campos obligatorios', 'error');
-                return;
-            }
-            
-            registros.push({
-                id: Date.now(),
-                tipo,
-                fecha,
-                monto,
-                categoria,
-                detalle,
-                created: Date.now()
+        function LaraApp() {
+            const [currentView, setCurrentView] = useState('login');
+            const [darkMode, setDarkMode] = useState(() => {
+                const saved = localStorage.getItem('darkMode');
+                return saved ? JSON.parse(saved) : false;
             });
             
-            saveData();
-            showNotification('✅ Guardado');
+            const [appSettings, setAppSettings] = useState(() => {
+                const saved = localStorage.getItem('appSettings');
+                return saved ? JSON.parse(saved) : {
+                    nombre: 'LaraApp7\nMULTI SERVICIOS LARA',
+                    eslogan: 'Servicio de transporte privado',
+                    detalle: 'Moviendo vidas',
+                    logo: null
+                };
+            });
 
-            if (currentSection === 'inicio') {
-                updateHomeResumen();
-            }
-            if (currentSection === 'diezmos') {
-                calcularDiezmo();
-            }
-            if (currentSection === 'resumen') {
-                renderResumen();
-            }
+            const [registros, setRegistros] = useState(() => {
+                const saved = localStorage.getItem('registros');
+                return saved ? JSON.parse(saved) : [];
+            });
 
-            document.getElementById('reg-monto').value = '';
-            document.getElementById('reg-detalle').value = '';
+            const [viajes, setViajes] = useState(() => {
+                const saved = localStorage.getItem('viajes');
+                return saved ? JSON.parse(saved) : [];
+            });
 
-            nav('historial-registros');
-        }
+            const [clientes, setClientes] = useState(() => {
+                const saved = localStorage.getItem('clientes');
+                return saved ? JSON.parse(saved) : [];
+            });
 
-        function searchRegistros() {
-            searchQuery = document.getElementById('search-registros').value.toLowerCase();
-            renderRegistrosList();
-        }
+            const [deudas, setDeudas] = useState(() => {
+                const saved = localStorage.getItem('deudas');
+                return saved ? JSON.parse(saved) : [];
+            });
 
-        function renderRegistrosList() {
-            const container = document.getElementById('registros-list');
+            const [pagosDeudas, setPagosDeudas] = useState(() => {
+                const saved = localStorage.getItem('pagosDeudas');
+                return saved ? JSON.parse(saved) : [];
+            });
 
-            let filtered = registros.slice();
-            
-            if (searchQuery) {
-                filtered = filtered.filter(r => {
-                    const searchIn = `${r.categoria} ${r.detalle || ''} ${r.tipo} ${r.monto}`.toLowerCase();
-                    return searchIn.includes(searchQuery);
+            const [diezmos, setDiezmos] = useState(() => {
+                const saved = localStorage.getItem('diezmos');
+                return saved ? JSON.parse(saved) : [];
+            });
+
+            const [cuentasFinancieras, setCuentasFinancieras] = useState(() => {
+                const saved = localStorage.getItem('cuentasFinancieras');
+                return saved ? JSON.parse(saved) : [];
+            });
+
+            const [notas, setNotas] = useState(() => {
+                const saved = localStorage.getItem('notas');
+                return saved ? JSON.parse(saved) : [];
+            });
+
+            const [categorias, setCategorias] = useState(() => {
+                const saved = localStorage.getItem('categorias');
+                return saved ? JSON.parse(saved) : [
+                    'Uber diario', 'Uber semanal', 'Gasolina', 'Internet',
+                    'Privado', 'Mantenimiento carro', 'Renta CARRO', 'Otros'
+                ];
+            });
+
+            useEffect(() => { localStorage.setItem('darkMode', JSON.stringify(darkMode)); }, [darkMode]);
+            useEffect(() => { localStorage.setItem('appSettings', JSON.stringify(appSettings)); }, [appSettings]);
+            useEffect(() => { localStorage.setItem('registros', JSON.stringify(registros)); }, [registros]);
+            useEffect(() => { localStorage.setItem('viajes', JSON.stringify(viajes)); }, [viajes]);
+            useEffect(() => { localStorage.setItem('clientes', JSON.stringify(clientes)); }, [clientes]);
+            useEffect(() => { localStorage.setItem('deudas', JSON.stringify(deudas)); }, [deudas]);
+            useEffect(() => { localStorage.setItem('pagosDeudas', JSON.stringify(pagosDeudas)); }, [pagosDeudas]);
+            useEffect(() => { localStorage.setItem('diezmos', JSON.stringify(diezmos)); }, [diezmos]);
+            useEffect(() => { localStorage.setItem('cuentasFinancieras', JSON.stringify(cuentasFinancieras)); }, [cuentasFinancieras]);
+            useEffect(() => { localStorage.setItem('notas', JSON.stringify(notas)); }, [notas]);
+            useEffect(() => { localStorage.setItem('categorias', JSON.stringify(categorias)); }, [categorias]);
+
+            const getQuincenaActual = () => {
+                const hoy = new Date();
+                const dia = hoy.getDate();
+                const mes = hoy.getMonth();
+                const año = hoy.getFullYear();
+                
+                if (dia <= 15) {
+                    return {
+                        inicio: new Date(año, mes, 1),
+                        fin: new Date(año, mes, 15),
+                        texto: `1-15 de ${hoy.toLocaleString('es', { month: 'long' })}`
+                    };
+                } else {
+                    const ultimoDia = new Date(año, mes + 1, 0).getDate();
+                    return {
+                        inicio: new Date(año, mes, 16),
+                        fin: new Date(año, mes, ultimoDia),
+                        texto: `16-${ultimoDia} de ${hoy.toLocaleString('es', { month: 'long' })}`
+                    };
+                }
+            };
+
+            const calcularBalanceQuincena = () => {
+                const quincena = getQuincenaActual();
+                const registrosQuincena = registros.filter(r => {
+                    const fecha = new Date(r.fecha);
+                    return fecha >= quincena.inicio && fecha <= quincena.fin;
                 });
-            }
-            
-            const desde = document.getElementById('filter-fecha-desde').value;
-            const hasta = document.getElementById('filter-fecha-hasta').value;
-            if (desde) filtered = filtered.filter(r => r.fecha >= desde);
-            if (hasta) filtered = filtered.filter(r => r.fecha <= hasta);
-            
-            if (currentFilters.categoria) filtered = filtered.filter(r => r.categoria === currentFilters.categoria);
-            if (currentFil
-ters.tipo) filtered = filtered.filter(r => r.tipo === currentFilters.tipo);
-            if (currentFilters.texto) {
-                const texto = currentFilters.texto.toLowerCase();
-                filtered = filtered.filter(r => (r.detalle || '').toLowerCase().includes(texto));
-            }
-            
-            filtered.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
 
-            if (filtered.length === 0) {
-                container.innerHTML = '<div class="card text-center text-slate-400">No hay registros' + (searchQuery ? ' que coincidan con la búsqueda' : '') + '</div>';
-                lucide.createIcons();
-                return;
-            }
-            
-            container.innerHTML = filtered.map((r, idx) => {
-                const color = r.tipo === 'Ingreso' ? 'text-emerald-400' : 'text-red-400';
-                const sign = r.tipo === 'Ingreso' ? '+' : '-';
-                return `
-                    <div class="card">
-                        <div class="flex items-center gap-3">
-                            <div class="flex-1">
-                                <p class="text-xs font-bold text-slate-500 mb-1">#${idx + 1} | ${r.categoria}</p>
-                                <p class="text-sm font-bold ${color}">${r.tipo}</p>
-                                <p class="text-xs text-slate-400">${formatDate(r.fecha)}</p>
-                                <p class="text-xs text-slate-500">${r.detalle || 'Sin notas'}</p>
-                            </div>
-                            <div class="text-right">
-                                <p class="text-xl font-black ${color} mb-2">${sign}${formatQ(r.monto)}</p>
-                                <div class="flex gap-2 justify-end">
-                                    <button onclick="editRegistro(${r.id})" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold">
-                                        Editar
-                                    </button>
-                                    <button onclick="deleteRegistroWithConfirm(${r.id})" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold">
-                                        Eliminar
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-            
-            lucide.createIcons();
-        }
+                const ingresos = registrosQuincena.filter(r => r.tipo === 'Ingreso').reduce((sum, r) => sum + parseFloat(r.monto), 0);
+                const gastos = registrosQuincena.filter(r => r.tipo === 'Gasto').reduce((sum, r) => sum + parseFloat(r.monto), 0);
 
-        function deleteRegistroWithConfirm(id) {
-            showDeleteConfirmation(() => {
-                registros = registros.filter(r => r.id !== id);
-                saveData();
-                renderRegistrosList();
-                showNotification('🗑️ Borrado');
-
-                if (currentSection === 'inicio') {
-                    updateHomeResumen();
-                }
-                if (currentSection === 'diezmos') {
-                    calcularDiezmo();
-                }
-                if (currentSection === 'resumen') {
-                    renderResumen();
-                }
-            });
-        }
-
-        function deleteRegistro(id) {
-            deleteRegistroWithConfirm(id);
-        }
-
-        function editRegistro(id) {
-            const reg = registros.find(r => r.id === id);
-            if (!reg) return;
-            
-            editingId = id;
-            
-            const modal = document.getElementById('modal-edit-registro');
-            document.getElementById('edit-reg-tipo').value = reg.tipo;
-            document.getElementById('edit-reg-fecha').value = reg.fecha;
-            document.getElementById('edit-reg-monto').value = reg.monto;
-            
-            const catSelect = document.getElementById('edit-reg-categoria');
-            catSelect.innerHTML = categorias.map(c => 
-                `<option value="${c}" ${c === reg.categoria ? 'selected' : ''}>${c}</option>`
-            ).join('');
-            
-            document.getElementById('edit-reg-detalle').value = reg.detalle || '';
-            
-            modal.classList.add('show');
-            lucide.createIcons();
-        }
-
-        function updateRegistro(event) {
-            event.preventDefault();
-            
-            const idx = registros.findIndex(r => r.id === editingId);
-            if (idx === -1) return;
-            
-            registros[idx] = {
-                ...registros[idx],
-                tipo: document.getElementById('edit-reg-tipo').value,
-                fecha: document.getElementById('edit-reg-fecha').value,
-                monto: parseFloat(document.getElementById('edit-reg-monto').value),
-                categoria: document.getElementById('edit-reg-categoria').value,
-                detalle: document.getElementById('edit-reg-detalle').value.trim()
+                return { ingresos, gastos, ganancia: ingresos - gastos, quincena: quincena.texto };
             };
-            
-            saveData();
-            closeModal('modal-edit-registro');
-            renderRegistrosList();
-            showNotification('✅ Guardado');
 
-            if (currentSection === 'inicio') {
-                updateHomeResumen();
-            }
-            if (currentSection === 'diezmos') {
-                calcularDiezmo();
-            }
-            if (currentSection === 'resumen') {
-                renderResumen();
-            }
-        }
-
-        function saveViaje() {
-            const fecha = document.getElementById('viaje-fecha').value;
-            const cliente = document.getElementById('viaje-cliente').value.trim();
-            const inicio = document.getElementById('viaje-inicio').value.trim();
-            const fin = document.getElementById('viaje-fin').value.trim();
-            const monto = parseFloat(document.getElementById('viaje-monto').value) || 0;
-            const estado = document.getElementById('viaje-estado').value;
-            const condicion = document.getElementById('viaje-condicion').value.trim();
-            const detalle = document.getElementById('viaje-detalle').value.trim();
-            
-            if (!fecha || !cliente || !inicio || !fin) {
-                showNotification('❌ Completa los campos obligatorios', 'error');
-                return;
-            }
-            
-            viajes.push({
-                id: Date.now(),
-                fecha,
-                cliente,
-                inicio,
-                fin,
-                monto,
-                estado,
-                condicion,
-                detalle,
-                created: Date.now()
-            });
-            
-            saveData();
-            showNotification('✅ Guardado');
-
-            if (currentSection === 'inicio') {
-                updateHomeResumen();
-            }
-
-            document.getElementById('viaje-cliente').value = '';
-            document.getElementById('viaje-inicio').value = '';
-            document.getElementById('viaje-fin').value = '';
-            document.getElementById('viaje-monto').value = '';
-            document.getElementById('viaje-condicion').value = '';
-            document.getElementById('viaje-detalle').value = '';
-
-            nav('historial-viajes');
-        }
-
-        function renderViajesList() {
-            const container = document.getElementById('viajes-list');
-            
-            if (viajes.length === 0) {
-                container.innerHTML = '<div class="card text-center text-slate-400">No hay viajes registrados</div>';
-                return;
-            }
-            
-            const sorted = viajes.slice().sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
-            
-            container.innerHTML = sorted.map((v, idx) => {
-                const color = v.estado === 'Realizado' ? 'text-emerald-400' : 'text-blue-400';
-                return `
-                    <div class="card">
-                        <div class="flex items-center gap-3">
-                            <div class="flex-1" onclick="editViaje(${v.id})" style="cursor: pointer;">
-                                <p class="text-xs font-bold text-slate-500 mb-1">#${idx + 1} | ${v.cliente}</p>
-                                <p class="text-sm font-bold">${v.inicio} → ${v.fin}</p>
-                                <p class="text-xs text-slate-400">${formatDate(v.fecha)} - <span class="${color}">${v.estado}</span></p>
-                                ${v.condicion ? `<p class="text-xs text-blue-300 mt-1">📝 ${v.condicion}</p>` : ''}
-                            </div>
-                            <div class="text-right">
-                                <p class="text-xl font-black ${color} mb-2">${v.monto > 0 ? formatQ(v.monto) : '---'}</p>
-                                <div class="flex gap-2 justify-end">
-                                    <button onclick="editViaje(${v.id})" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold">
-                                        Editar
-                                    </button>
-                                    <button onclick="deleteViaje(${v.id}, event)" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold">
-                                        Eliminar
-                                    </button>
+            const LoginScreen = () => (
+                <div className={`min-h-screen flex items-center justify-center p-4 ${darkMode ? 'bg-gray-900' : 'bg-gradient-to-br from-emerald-50 to-blue-50'}`}>
+                    <div className={`w-full max-w-md ${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-2xl p-8`}>
+                        <div className="text-center mb-8">
+                            {appSettings.logo ? (
+                                <img src={appSettings.logo} alt="Logo" className="w-32 h-32 mx-auto mb-4 rounded-full object-cover shadow-lg" />
+                            ) : (
+                                <div className="w-32 h-32 mx-auto mb-4 bg-gradient-to-br from-emerald-500 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
+                                    <Icons.Calendar />
                                 </div>
-                            </div>
+                            )}
+                            <h1 className={`text-2xl font-bold mb-2 whitespace-pre-line ${darkMode ? 'text-white' : 'text-gray-800'}`}>
+                                {appSettings.nombre}
+                            </h1>
+                            <p className={`text-lg ${darkMode ? 'text-emerald-400' : 'text-emerald-600'} font-semibold mb-1`}>
+                                {appSettings.eslogan}
+                            </p>
+                            <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>{appSettings.detalle}</p>
                         </div>
+                        <button
+                            onClick={() => setCurrentView('dashboard')}
+                            className="w-full bg-gradient-to-r from-emerald-500 to-blue-600 text-white py-4 rounded-xl font-semibold text-lg hover:shadow-lg transform hover:scale-105 transition"
+                        >
+                            🚀 Entrar
+                        </button>
                     </div>
-                `;
-            }).join('');
-            
-            lucide.createIcons();
-        }
-
-        function editViaje(id) {
-            const viaje = viajes.find(v => v.id === id);
-            if (!viaje) return;
-            
-            editingId = id;
-            
-            document.getElementById('edit-viaje-fecha').value = viaje.fecha;
-            document.getElementById('edit-viaje-cliente').value = viaje.cliente;
-            document.getElementById('edit-viaje-inicio').value = viaje.inicio;
-            document.getElementById('edit-viaje-fin').value = viaje.fin;
-            document.getElementById('edit-viaje-monto').value = viaje.monto || '';
-            document.getElementById('edit-viaje-estado').value = viaje.estado;
-            document.getElementById('edit-viaje-condicion').value = viaje.condicion || '';
-            document.getElementById('edit-viaje-detalle').value = viaje.detalle || '';
-            
-            document.getElementById('modal-edit-viaje').classList.add('show');
-            lucide.createIcons();
-        }
-
-        function updateViaje(event) {
-            event.preventDefault();
-            
-            const idx = viajes.findIndex(v => v.id === editingId);
-            if (idx === -1) return;
-            
-            viajes[idx] = {
-                ...viajes[idx],
-                fecha: document.getElementById('edit-viaje-fecha').value,
-                cliente: document.getElementById('edit-viaje-cliente').value.trim(),
-                inicio: document.getElementById('edit-viaje-inicio').value.trim(),
-                fin: document.getElementById('edit-viaje-fin').value.trim(),
-                monto: parseFloat(document.getElementById('edit-viaje-monto').value) || 0,
-                estado: document.getElementById('edit-viaje-estado').value,
-                condicion: document.getElementById('edit-viaje-condicion').value.trim(),
-                detalle: document.getElementById('edit-viaje-detalle').value.trim()
-            };
-            
-            saveData();
-            closeModal('modal-edit-viaje');
-            renderViajesList();
-            showNotification('✅ Guardado');
-
-            if (currentSection === 'inicio') {
-                updateHomeResumen();
-            }
-        }
-
-        function deleteViaje(id, event) {
-            event.preventDefault();
-            event.stopPropagation();
-            event.stopImmediatePropagation();
-            showDeleteConfirmation(() => {
-                viajes = viajes.filter(v => v.id !== id);
-                saveData();
-                renderViajesList();
-                showNotification('🗑️ Borrado');
-
-                if (currentSection === 'inicio') {
-                    updateHomeResumen();
-                }
-            });
-        }
-
-        function getQuincenaRange(monthStr, q) {
-            const [y, m] = monthStr.split('-').map(Number);
-            const start = new Date(y, m - 1, q == 1 ? 1 : 16);
-            start.setHours(0, 0, 0, 0);
-            
-            const end = q == 1 ? 
-                new Date(y, m - 1, 15, 23, 59, 59) : 
-                new Date(y, m, 0, 23, 59, 59);
-            
-            return { start, end };
-        }
-
-        function initDiezmos() {
-            const hoy = new Date();
-            document.getElementById('diezmo-month').value = hoy.toISOString().slice(0, 7);
-            document.getElementById('diezmo-quincena').value = hoy.getDate() <= 15 ? '1' : '2';
-            calcularDiezmo();
-        }
-
-        function calcularDiezmo() {
-            const month = document.getElementById('diezmo-month').value;
-            const q = document.getElementById('diezmo-quincena').value;
-            const { start, end } = getQuincenaRange(month, q);
-            const key = `${month}-q${q}`;
-            
-            let ing = 0, gas = 0;
-            registros.forEach(r => {
-                const d = new Date(r.fecha + 'T00:00:00');
-                if (d >= start && d <= end) {
-                    if (r.tipo === 'Ingreso') ing += r.monto;
-                    else gas += r.monto;
-                }
-            });
-            
-            const base = Math.max(0, ing - gas);
-            const sugerido = base * 0.10;
-            
-            const pagado = diezmos
-                .filter(d => d.quincenaKey === key)
-                .reduce((sum, d) => sum + d.monto, 0);
-            
-            const faltante = Math.max(0, sugerido - pagado);
-            
-            document.getElementById('diezmo-info').innerHTML = `
-                <h3 class="text-sm font-bold text-blue-400 mb-4 uppercase">
-                    Quincena: ${start.getDate()} - ${end.getDate()} de ${start.toLocaleDateString('es-MX', { month: 'long', year: 'numeric' })}
-                </h3>
-                <div class="space-y-3">
-                    <div class="card bg-emerald-500/20 border border-emerald-500/30">
-                        <p class="text-xs text-emerald-300 uppercase font-bold mb-1">Ingresos</p>
-                        <p class="text-lg font-black text-emerald-400">${formatQ(ing)}</p>
-                    </div>
-                    
-                    <div class="card bg-red-500/20 border border-red-500/30">
-                        <p class="text-xs text-red-300 uppercase font-bold mb-1">Gastos</p>
-                        <p class="text-lg font-black text-red-400">${formatQ(gas)}</p>
-                    </div>
-                    
-                    <div class="card bg-blue-500/20 border border-blue-500/30">
-                        <p class="text-xs text-slate-400 uppercase font-bold mb-1">Base (Neta)</p>
-                        <p class="text-lg font-black text-blue-400">${formatQ(base)}</p>
-                    </div>
-                    
-                    <div class="card bg-purple-500/20 border-2 border-purple-500/30">
-                        <p class="text-xs text-slate-400 uppercase font-bold mb-1">Diezmo Sugerido (10%)</p>
-                        <p class="text-2xl font-black text-purple-400">${formatQ(sugerido)}</p>
-                    </div>
-                    
-                    <div class="card bg-teal-500/20 border border-teal-500/30">
-                        <p class="text-xs text-slate-400 uppercase font-bold mb-1">Pagado</p>
-                        <p class="text-lg font-black text-teal-400">${formatQ(pagado)}</p>
-                    </div>
-                    
-                    ${faltante > 0 ? `
-                    <div class="card bg-red-500/30 border-2 border-red-500/50">
-                        <p class="text-xs text-red-300 uppercase font-bold mb-1">Faltante</p>
-                        <p class="text-2xl font-black text-red-400">${formatQ(faltante)}</p>
-                    </div>
-                    ` : `
-                    <div class="card bg-emerald-500/20 border border-emerald-500/30">
-                        <p class="text-sm font-bold text-emerald-400 text-center py-2">✅ Diezmo completo</p>
-                    </div>
-                    `}
                 </div>
-            `;
-            
-            lucide.createIcons();
-            
-            document.getElementById('diezmo-monto').value = faltante > 0 ? faltante.toFixed(2) : '';
-        }
+            );
 
-        function saveDiezmo() {
-            const month = document.getElementById('diezmo-month').value;
-            const q = document.getElementById('diezmo-quincena').value;
-            const monto = parseFloat(document.getElementById('diezmo-monto').value);
-            const metodo = document.getElementById('diezmo-metodo').value;
-            
-            if (isNaN(monto) || monto <= 0) {
-                showNotification('❌ Ingresa un monto válido', 'error');
-                return;
-            }
-            
-            diezmos.push({
-                id: Date.now(),
-                quincenaKey: `${month}-q${q}`,
-                fecha: new Date().toISOString().split('T')[0],
-                monto,
-                metodo,
-                created: Date.now()
-            });
-            
-            saveData();
-
-            document.getElementById('diezmo-monto').value = '';
-
-            calcularDiezmo();
-
-            if (currentSection === 'resumen') {
-                renderResumen();
-            }
-
-            showNotification('✅ Pago guardado');
-        }
-
-        function renderDiezmosList() {
-            const container = document.getElementById('diezmos-list');
-            
-            if (diezmos.length === 0) {
-                container.innerHTML = '<div class="card text-center text-slate-400">No hay pagos registrados</div>';
-                return;
-            }
-            
-            const grouped = {};
-            diezmos.forEach(d => {
-                if (!grouped[d.quincenaKey]) grouped[d.quincenaKey] = [];
-                grouped[d.quincenaKey].push(d);
-            });
-            
-            const keys = Object.keys(grouped).sort().reverse();
-            
-            container.innerHTML = keys.map(key => {
-                const pagos = grouped[key].sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
-                const total = pagos.reduce((sum, p) => sum + p.monto, 0);
-                
-                const [monthStr, qStr] = key.split('-q');
-                const q = parseInt(qStr);
-                const { start, end } = getQuincenaRange(monthStr, q);
-                
-                return `
-                    <div class="card">
-                        <div class="flex justify-between items-center mb-3 pb-3 border-b border-white/10">
-                            <div>
-                                <p class="font-bold text-sm">Quincena ${q}: ${start.getDate()}-${end.getDate()} ${start.toLocaleDateString('es-MX', { month: 'short', year: 'numeric' })}</p>
-                                <p class="text-xs text-slate-400">${pagos.length} pago(s)</p>
+            const Dashboard = () => {
+                const balance = calcularBalanceQuincena();
+                return (
+                    <div className={`min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-gray-50'} pb-20`}>
+                        <div className={`${darkMode ? 'bg-gradient-to-r from-emerald-700 to-blue-700' : 'bg-gradient-to-r from-emerald-500 to-blue-600'} text-white p-6 rounded-b-3xl shadow-lg`}>
+                            <h1 className="text-2xl font-bold mb-4">📊 Dashboard</h1>
+                            <div className={`${darkMode ? 'bg-gray-800' : 'bg-white/20'} backdrop-blur-sm rounded-xl p-4`}>
+                                <p className="text-sm opacity-90 mb-2">Quincena: {balance.quincena}</p>
+                                <div className="grid grid-cols-3 gap-3">
+                                    <div><p className="text-xs opacity-80">Ingresos</p><p className="text-lg font-bold">Q{balance.ingresos.toFixed(2)}</p></div>
+                                    <div><p className="text-xs opacity-80">Gastos</p><p className="text-lg font-bold">Q{balance.gastos.toFixed(2)}</p></div>
+                                    <div><p className="text-xs opacity-80">Ganancia</p><p className="text-lg font-bold">Q{balance.ganancia.toFixed(2)}</p></div>
+                                </div>
                             </div>
-                            <p class="text-lg font-black text-emerald-400">${formatQ(total)}</p>
                         </div>
-                        <div class="space-y-2">
-                            ${pagos.map(p => `
-                                <div class="flex justify-between items-center text-sm bg-white/5 p-3 rounded-lg">
-                                    <div class="flex-1">
-                                        <p class="text-xs text-slate-400">${formatDate(p.fecha)} • ${p.metodo}</p>
-                                    </div>
-                                    <div class="flex items-center gap-2">
-                                        <span class="font-bold text-emerald-400 text-base">${formatQ(p.monto)}</span>
-                                        <button onclick="deleteDiezmo(${p.id})" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold">
-                                            Eliminar
-                                        </button>
+                        <div className="p-4 grid grid-cols-2 gap-4 mt-4">
+                            {[
+                                { view: 'diezmos', icon: 'DollarSign', label: 'Diezmos', color: 'emerald' },
+                                { view: 'notas', icon: 'FileText', label: 'Notas', color: 'blue' },
+                                { view: 'infoFinanciera', icon: 'FileText', label: 'Info Financiera', color: 'yellow' },
+                                { view: 'ajustes', icon: 'Settings', label: 'Ajustes', color: 'gray' }
+                            ].map(({ view, icon, label, color }) => {
+                                const Icon = Icons[icon];
+                                return (
+                                    <button key={view} onClick={() => setCurrentView(view)} className={`${darkMode ? 'bg-gray-800' : 'bg-white'} p-6 rounded-xl shadow-lg hover:shadow-xl transition`}>
+                                        <div className={`w-8 h-8 mb-2 mx-auto text-${color}-${darkMode ? '400' : '600'}`}><Icon /></div>
+                                        <p className={`font-semibold text-center ${darkMode ? 'text-white' : 'text-gray-800'}`}>{label}</p>
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+                );
+            };
+
+            const RegistrosDiariosScreen = () => {
+                const [showForm, setShowForm] = useState(false);
+                const [editingId, setEditingId] = useState(null);
+                const [formData, setFormData] = useState({ fecha: new Date().toISOString().split('T')[0], monto: '', tipo: 'Ingreso', categoria: '', detalle: '' });
+                const [nuevaCategoria, setNuevaCategoria] = useState('');
+
+                const handleSubmit = () => {
+                    let catFinal = formData.categoria;
+                    if (formData.categoria === 'Otros' && nuevaCategoria) {
+                        if (!categorias.includes(nuevaCategoria)) setCategorias([...categorias, nuevaCategoria]);
+                        catFinal = nuevaCategoria;
+                    }
+                    
+                    if (editingId) {
+                        setRegistros(registros.map(r => r.id === editingId ? { ...formData, categoria: catFinal, id: editingId } : r));
+                    } else {
+                        setRegistros([...registros, { ...formData, categoria: catFinal, id: Date.now() }]);
+                    }
+                    
+                    setShowForm(false);
+                    setEditingId(null);
+                    setFormData({ fecha: new Date().toISOString().split('T')[0], monto: '', tipo: 'Ingreso', categoria: '', detalle: '' });
+                    setNuevaCategoria('');
+                };
+
+                return (
+                    <div className={`min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-gray-50'} pb-20`}>
+                        <div className={`${darkMode ? 'bg-gradient-to-r from-emerald-700 to-blue-700' : 'bg-gradient-to-r from-emerald-500 to-blue-600'} text-white p-6`}>
+                            <h1 className="text-2xl font-bold">📖 Libro Diario</h1>
+                        </div>
+                        <div className="p-4">
+                            <button onClick={() => setShowForm(true)} className="w-full bg-gradient-to-r from-emerald-500 to-blue-600 text-white py-4 rounded-xl font-semibold mb-4 flex items-center justify-center gap-2">
+                                <Icons.Plus /> Añadir Registro
+                            </button>
+
+                            {showForm && (
+                                <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl p-4 shadow-lg mb-4`}>
+                                    <h3 className={`font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-800'}`}>{editingId ? 'Editar' : 'Nuevo'} Registro</h3>
+                                    <input type="date" value={formData.fecha} onChange={(e) => setFormData({ ...formData, fecha: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
+                                    <input type="number" placeholder="Monto (Q)" value={formData.monto} onChange={(e) => setFormData({ ...formData, monto: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
+                                    <select value={formData.tipo} onChange={(e) => setFormData({ ...formData, tipo: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`}>
+                                        <option>Ingreso</option>
+                                        <option>Gasto</option>
+                                    </select>
+                                    <select value={formData.categoria} onChange={(e) => setFormData({ ...formData, categoria: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`}>
+                                        <option value="">Seleccionar categoría</option>
+                                        {categorias.map(cat => <option key={cat} value={cat}>{cat}</option>)}
+                                    </select>
+                                    {formData.categoria === 'Otros' && (
+                                        <input type="text" placeholder="Nueva categoría" value={nuevaCategoria} onChange={(e) => setNuevaCategoria(e.target.value)} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
+                                    )}
+                                    <textarea placeholder="Detalle" value={formData.detalle} onChange={(e) => setFormData({ ...formData, detalle: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} rows="3" />
+                                    <div className="flex gap-2">
+                                        <button onClick={handleSubmit} className="flex-1 bg-emerald-500 text-white py-3 rounded-lg font-semibold">{editingId ? 'Actualizar' : 'Guardar'}</button>
+                                        <button onClick={() => { setShowForm(false); setEditingId(null); }} className={`flex-1 ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-300 text-gray-800'} py-3 rounded-lg font-semibold`}>Cancelar</button>
                                     </div>
                                 </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                `;
-            }).join('');
-            
-            lucide.createIcons();
-        }
+                            )}
 
-        function deleteDiezmo(id) {
-            showDeleteConfirmation(() => {
-                diezmos = diezmos.filter(d => d.id !== id);
-                saveData();
-                renderDiezmosList();
-                if (currentSection === 'diezmos') calcularDiezmo();
-
-                if (currentSection === 'resumen') {
-                    renderResumen();
-                }
-
-                showNotification('🗑️ Pago borrado');
-            });
-        }
-
-        function showFilterModal() {
-            const modal = document.getElementById('modal-filtros');
-            const catSelect = document.getElementById('filter-categoria');
-            catSelect.innerHTML = '<option value="">Todas</option>' + 
-                categorias.map(c => `<option value="${c}" ${currentFilters.categoria === c ? 'selected' : ''}>${c}</option>`).join('');
-            
-            document.getElementById('filter-tipo').value = currentFilters.tipo || '';
-            document.getElementById('filter-texto').value = currentFilters.texto || '';
-            
-            modal.classList.add('show');
-        }
-
-        function applyFilters() {
-            currentFilters = {
-                categoria: document.getElementById('filter-categoria').value,
-                tipo: document.getElementById('filter-tipo').value,
-                texto: document.getElementById('filter-texto').value.toLowerCase()
-            };
-            closeModal('modal-filtros');
-            renderRegistrosList();
-        }
-
-        function clearFilters() {
-            currentFilters = {};
-            document.getElementById('filter-fecha-desde').value = '';
-            document.getElementById('filter-fecha-hasta').value = '';
-            closeModal('modal-filtros');
-            renderRegistrosList();
-        }
-
-        function applyQuickFilters() {
-            renderRegistrosList();
-        }
-
-        function renderSimpleChart() {
-            const container = document.getElementById('simple-chart');
-            
-            const monthStats = {};
-            const today = new Date();
-            
-            for (let i = 5; i >= 0; i--) {
-                const date = new Date(today.getFullYear(), today.getMonth() - i, 1);
-                const key = date.toISOString().slice(0, 7);
-                monthStats[key] = { ing: 0, gas: 0, month: date.toLocaleDateString('es-MX', { month: 'short' }) };
-            }
-            
-            registros.forEach(r => {
-                const key = r.fecha.slice(0, 7);
-                if (monthStats[key]) {
-                    if (r.tipo === 'Ingreso') monthStats[key].ing += r.monto;
-                    else monthStats[key].gas += r.monto;
-                }
-            });
-            
-            const maxValue = Math.max(...Object.values(monthStats).map(m => Math.max(m.ing, m.gas)));
-            
-            if (maxValue === 0) {
-                container.innerHTML = '<p class="text-center text-slate-400 py-4">No hay datos suficientes</p>';
-                return;
-            }
-            
-            container.innerHTML = Object.keys(monthStats).map(key => {
-                const data = monthStats[key];
-                const ingHeight = (data.ing / maxValue) * 100;
-                const gasHeight = (data.gas / maxValue) * 100;
-                
-                return `
-                    <div class="space-y-1">
-                        <div class="flex justify-between text-xs text-slate-400">
-                            <span class="font-bold capitalize">${data.month}</span>
-                            <span>${formatQ(data.ing - data.gas)}</span>
-                        </div>
-                        <div class="flex gap-2 items-end h-20">
-                            <div class="flex-1 relative">
-                                <div class="chart-bar ingreso" style="height: ${ingHeight}%" 
-                                     title="Ingresos: ${formatQ(data.ing)}"></div>
-                                <p class="text-xs text-center mt-1 text-emerald-400 font-bold">I</p>
-                            </div>
-                            <div class="flex-1 relative">
-                                <div class="chart-bar gasto" style="height: ${gasHeight}%" 
-                                     title="Gastos: ${formatQ(data.gas)}"></div>
-                                <p class="text-xs text-center mt-1 text-red-400 font-bold">G</p>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function updateHomeResumen() {
-            const hoy = new Date();
-            const start = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
-            const end = new Date(hoy.getFullYear(), hoy.getMonth() + 1, 0, 23, 59, 59);
-
-            let ing = 0, gas = 0;
-            registros.forEach(r => {
-                const d = new Date(r.fecha + 'T00:00:00');
-                if (d >= start && d <= end) {
-                    if (r.tipo === 'Ingreso') ing += r.monto;
-                    else gas += r.monto;
-                }
-            });
-
-            const neto = ing - gas;
-            document.getElementById('home-neto').textContent = formatQ(neto);
-            document.getElementById('home-ingresos').textContent = formatQ(ing);
-            document.getElementById('home-gastos').textContent = formatQ(gas);
-        }
-
-        function renderResumen() {
-            const container = document.getElementById('resumen-container');
-            
-            renderSimpleChart();
-            
-            const hoy = new Date();
-            const start = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
-            const end = new Date(hoy.getFullYear(), hoy.getMonth() + 1, 0, 23, 59, 59);
-            
-            let ingMes = 0, gasMes = 0;
-            registros.forEach(r => {
-                const d = new Date(r.fecha + 'T00:00:00');
-                if (d >= start && d <= end) {
-                    if (r.tipo === 'Ingreso') ingMes += r.monto;
-                    else gasMes += r.monto;
-                }
-            });
-            
-            const netoMes = ingMes - gasMes;
-            
-            let ingTotal = 0, gasTotal = 0;
-            registros.forEach(r => {
-                if (r.tipo === 'Ingreso') ingTotal += r.monto;
-                else gasTotal += r.monto;
-            });
-            const netoTotal = ingTotal - gasTotal;
-            
-            const catStats = {};
-            registros.forEach(r => {
-                if (!catStats[r.categoria]) catStats[r.categoria] = { ing: 0, gas: 0 };
-                if (r.tipo === 'Ingreso') catStats[r.categoria].ing += r.monto;
-                else catStats[r.categoria].gas += r.monto;
-            });
-            
-            const monthStats = {};
-            registros.forEach(r => {
-                const key = r.fecha.slice(0, 7);
-                if (!monthStats[key]) monthStats[key] = { ing: 0, gas: 0 };
-                if (r.tipo === 'Ingreso') monthStats[key].ing += r.monto;
-                else monthStats[key].gas += r.monto;
-            });
-            
-            let html = `
-                <div class="card bg-gradient-to-br from-blue-600 to-blue-700 border-0">
-                    <p class="text-blue-100 text-xs font-bold uppercase mb-1">💰 Mes Actual (${hoy.toLocaleDateString('es-MX', { month: 'long', year: 'numeric' })})</p>
-                    <h2 class="text-4xl font-black text-white mb-4">${formatQ(netoMes)}</h2>
-                    <div class="grid grid-cols-2 gap-3">
-                        <div class="bg-white/10 backdrop-blur p-3 rounded-xl">
-                            <p class="text-xs text-blue-100 uppercase font-bold">Ingresos</p>
-                            <p class="text-lg font-bold text-white">${formatQ(ingMes)}</p>
-                        </div>
-                        <div class="bg-white/10 backdrop-blur p-3 rounded-xl">
-                            <p class="text-xs text-blue-100 uppercase font-bold">Gastos</p>
-                            <p class="text-lg font-bold text-white">${formatQ(gasMes)}</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="card">
-                    <h3 class="text-sm font-bold text-blue-400 mb-3 uppercase">📊 Totales Globales</h3>
-                    <div class="text-center mb-3">
-                        <p class="text-xs text-slate-400 uppercase">Ganancia Neta Total</p>
-                        <p class="text-3xl font-black ${netoTotal >= 0 ? 'text-emerald-400' : 'text-red-400'}">${formatQ(netoTotal)}</p>
-                    </div>
-                    <div class="grid grid-cols-2 gap-3">
-                        <div class="bg-emerald-500/10 p-3 rounded-xl text-center">
-                            <p class="text-xs text-emerald-400 font-bold">Ingresos</p>
-                            <p class="text-lg font-bold text-emerald-400">${formatQ(ingTotal)}</p>
-                        </div>
-                        <div class="bg-red-500/10 p-3 rounded-xl text-center">
-                            <p class="text-xs text-red-400 font-bold">Gastos</p>
-                            <p class="text-lg font-bold text-red-400">${formatQ(gasTotal)}</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="card">
-                    <h3 class="text-sm font-bold text-blue-400 mb-3 uppercase">🏷️ Por Categoría</h3>
-<div class="space-y-2">
-                        ${Object.keys(catStats).map(cat => {
-                            const neto = catStats[cat].ing - catStats[cat].gas;
-                            const color = neto >= 0 ? 'text-emerald-400' : 'text-red-400';
-                            return `
-                                <div class="flex justify-between items-center border-b border-white/5 pb-2">
-                                    <div class="flex-1">
-                                        <p class="font-bold text-sm">${cat}</p>
-                                        <p class="text-xs text-slate-400">I: ${formatQ(catStats[cat].ing)} | G: ${formatQ(catStats[cat].gas)}</p>
+                            <div className="space-y-3">
+                                {[...registros].sort((a, b) => new Date(b.fecha) - new Date(a.fecha)).map(registro => (
+                                    <div key={registro.id} className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl p-4 shadow`}>
+                                        <div className="flex justify-between items-start mb-2">
+                                            <div>
+                                                <p className={`font-semibold ${registro.tipo === 'Ingreso' ? 'text-emerald-600' : 'text-red-600'}`}>
+                                                    {registro.tipo === 'Ingreso' ? '📈' : '📉'} Q{parseFloat(registro.monto).toFixed(2)}
+                                                </p>
+                                                <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>{new Date(registro.fecha).toLocaleDateString('es-GT')}</p>
+                                            </div>
+                                            <div className="flex gap-2">
+                                                <button onClick={() => { setFormData(registro); setEditingId(registro.id); setShowForm(true); }} className="text-blue-600"><Icons.Edit2 /></button>
+                                                <button onClick={() => setRegistros(registros.filter(r => r.id !== registro.id))} className="text-red-600"><Icons.Trash2 /></button>
+                                            </div>
+                                        </div>
+                                        <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}><span className="font-semibold">Categoría:</span> {registro.categoria}</p>
+                                        <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>{registro.detalle}</p>
                                     </div>
-                                    <p class="font-black ${color}">${formatQ(neto)}</p>
-                                </div>
-                            `;
-                        }).join('')}
-                    </div>
-                </div>
-<div class="card">
-                <h3 class="text-sm font-bold text-blue-400 mb-3 uppercase">📅 Historial Mensual</h3>
-                <div class="space-y-2">
-                    ${Object.keys(monthStats).sort().reverse().map(month => {
-                        const neto = monthStats[month].ing - monthStats[month].gas;
-                        const color = neto >= 0 ? 'text-emerald-400' : 'text-red-400';
-                        const date = new Date(month + '-01');
-                        const monthName = date.toLocaleDateString('es-MX', { month: 'long', year: 'numeric' });
-                        return `
-                            <div class="flex justify-between items-center border-b border-white/5 pb-2">
-                                <div class="flex-1">
-                                    <p class="font-bold text-sm capitalize">${monthName}</p>
-                                    <p class="text-xs text-slate-400">I: ${formatQ(monthStats[month].ing)} | G: ${formatQ(monthStats[month].gas)}</p>
-                                </div>
-                                <p class="font-black ${color}">${formatQ(neto)}</p>
+                                ))}
                             </div>
-                        `;
-                    }).join('')}
-                </div>
-            </div>
-            
-            <div class="card">
-                <h3 class="text-sm font-bold text-blue-400 mb-3 uppercase">🚗 Estadísticas de Viajes</h3>
-                <div class="grid grid-cols-3 gap-3">
-                    <div class="text-center">
-                        <p class="text-xs text-slate-400 uppercase">Total</p>
-                        <p class="text-2xl font-black text-blue-400">${viajes.length}</p>
+                        </div>
                     </div>
-                    <div class="text-center">
-                        <p class="text-xs text-slate-400 uppercase">Realizados</p>
-                        <p class="text-2xl font-black text-emerald-400">${viajes.filter(v => v.estado === 'Realizado').length}</p>
-                    </div>
-                    <div class="text-center">
-                        <p class="text-xs text-slate-400 uppercase">Pendientes</p>
-                        <p class="text-2xl font-black text-orange-400">${viajes.filter(v => v.estado !== 'Realizado').length}</p>
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        container.innerHTML = html;
-    }
-
-    function exportToExcel() {
-        if (registros.length === 0) {
-            showNotification('❌ No hay datos para exportar', 'error');
-            return;
-        }
-        
-        showLoader();
-        
-        try {
-            const data = registros.map(r => ({
-                'Fecha': r.fecha,
-                'Tipo': r.tipo,
-                'Categoría': r.categoria,
-                'Monto': r.monto,
-                'Detalle': r.detalle || ''
-            }));
-            
-            const ws = XLSX.utils.json_to_sheet(data);
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, 'Registros');
-            
-            const fecha = new Date().toISOString().split('T')[0];
-            XLSX.writeFile(wb, `LARA_Registros_${fecha}.xlsx`);
-            
-            hideLoader();
-            showNotification('📊 Datos exportados a Excel');
-        } catch (error) {
-            hideLoader();
-            console.error('Error al exportar:', error);
-            showNotification('❌ Error al exportar datos', 'error');
-        }
-    }
-
-    function exportJSON() {
-        try {
-            const data = {
-                registros: registros || [],
-                viajes: viajes || [],
-                diezmos: diezmos || [],
-                categorias: categorias || [],
-                exportDate: new Date().toISOString(),
-                version: '1.0'
+                );
             };
-            
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = `LARA_Backup_${new Date().toISOString().split('T')[0]}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(a.href);
-            
-            showNotification('💾 Respaldo creado correctamente');
-        } catch (error) {
-            console.error('Error al exportar:', error);
-            showNotification('❌ Error al crear respaldo', 'error');
-        }
-    }
 
-    function importJSON(event) {
-        const file = event.target.files[0];
-        if (!file) return;
-        
-        if (!file.name.endsWith('.json')) {
-            showNotification('❌ El archivo debe ser un JSON válido', 'error');
-            event.target.value = '';
-            return;
-        }
-        
-        showLoader();
-        
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            try {
-                const data = JSON.parse(e.target.result);
-                
-                if (!data || typeof data !== 'object') {
-                    throw new Error('Formato de archivo inválido');
-                }
-                
-                if (!data.registros && !data.viajes && !data.diezmos && !data.categorias) {
-                    throw new Error('El archivo no contiene datos válidos de LARA');
-                }
-                
-                if (Array.isArray(data.registros)) {
-                    const validRegistros = data.registros.filter(r => 
-                        r.id && r.fecha && r.tipo && r.monto !== undefined && r.categoria
-                    );
-                    registros = validRegistros;
-                }
-                
-                if (Array.isArray(data.viajes)) {
-                    const validViajes = data.viajes.filter(v => 
-                        v.id && v.fecha && v.cliente
-                    );
-                    viajes = validViajes;
-                }
-                
-                if (Array.isArray(data.diezmos)) {
-                    const validDiezmos = data.diezmos.filter(d => 
-                        d.id && d.quincenaKey && d.monto !== undefined
-                    );
-                    diezmos = validDiezmos;
-                }
-                
-                if (Array.isArray(data.categorias) && data.categorias.length > 0) {
-                    categorias = data.categorias;
-                }
-                
-                saveData();
-                
-                hideLoader();
-                showNotification('✅ Datos importados correctamente');
-                
-                updateHomeResumen();
-                
-                if (currentSection === 'historial-registros') renderRegistrosList();
-                if (currentSection === 'historial-viajes') renderViajesList();
-                if (currentSection === 'historial-diezmos') renderDiezmosList();
-                if (currentSection === 'diezmos') calcularDiezmo();
-                if (currentSection === 'resumen') renderResumen();
-            } catch (err) {
-                hideLoader();
-                showNotification('❌ Error al importar archivo. Verifica que sea válido', 'error');
-                console.error('Error de importación:', err);
-            }
-        };
-        
-        reader.onerror = () => {
-            hideLoader();
-            showNotification('❌ Error al leer el archivo', 'error');
-        };
-        
-        reader.readAsText(file);
-        event.target.value = '';
-    }
+            const ViajesScreen = () => {
+                const [showForm, setShowForm] = useState(false);
+                const [formData, setFormData] = useState({ destinoInicial: '', destinoFinal: '', cliente: '', fecha: '', costo: '', estado: 'Cotizado' });
 
-    function borrarTodo() {
-        if (!confirm('⚠️ ¿BORRAR TODOS LOS DATOS? Esta acción NO se puede deshacer.')) return;
-        if (!confirm('¿Estás completamente seguro? Se perderán TODOS los registros, viajes y pagos.')) return;
-        
-        localStorage.clear();
-        registros = [];
-        viajes = [];
-        diezmos = [];
-        categorias = ["Sueldo", "Ventas", "Transporte", "Comida", "Vivienda", "Salud"];
-        
-        showNotification('🗑️ Todos los datos han sido eliminados');
-        setTimeout(() => location.reload(), 1500);
-    }
+                const handleSubmit = () => {
+                    setViajes([...viajes, { ...formData, id: Date.now() }]);
+                    setShowForm(false);
+                    setFormData({ destinoInicial: '', destinoFinal: '', cliente: '', fecha: '', costo: '', estado: 'Cotizado' });
+                };
 
-    function init() {
-        loadData();
+                const marcarRealizado = (viaje) => {
+                    setViajes(viajes.map(v => v.id === viaje.id ? { ...v, estado: 'Realizado' } : v));
+                    setRegistros([...registros, { id: Date.now(), fecha: viaje.fecha, monto: viaje.costo, tipo: 'Ingreso', categoria: 'Privado', detalle: `Viaje a ${viaje.destinoFinal}` }]);
+                };
 
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js')
-                .then(reg => console.log('Service Worker registrado'))
-                .catch(err => console.log('Error al registrar Service Worker:', err));
-        }
+                return (
+                    <div className={`min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-gray-50'} pb-20`}>
+                        <div className={`${darkMode ? 'bg-gradient-to-r from-emerald-700 to-blue-700' : 'bg-gradient-to-r from-emerald-500 to-blue-600'} text-white p-6`}>
+                            <h1 className="text-2xl font-bold">🚗 Viajes</h1>
+                        </div>
+                        <div className="p-4">
+                            <button onClick={() => setShowForm(true)} className="w-full bg-gradient-to-r from-emerald-500 to-blue-600 text-white py-4 rounded-xl font-semibold mb-4 flex items-center justify-center gap-2">
+                                <Icons.Plus /> Nuevo Viaje
+                            </button>
 
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'light') {
-            document.body.setAttribute('data-theme', 'light');
-            document.getElementById('theme-toggle').checked = true;
-        }
+                            {showForm && (
+                                <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl p-4 shadow-lg mb-4`}>
+                                    <h3 className={`font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-800'}`}>Nuevo Viaje</h3>
+                                    <input type="text" placeholder="Destino inicial" value={formData.destinoInicial} onChange={(e) => setFormData({ ...formData, destinoInicial: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
+                                    <input type="text" placeholder="Destino final" value={formData.destinoFinal} onChange={(e) => setFormData({ ...formData, destinoFinal: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
+                                    <input type="text" placeholder="Cliente" value={formData.cliente} onChange={(e) => setFormData({ ...formData, cliente: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
+                                    <input type="date" value={formData.fecha} onChange={(e) => setFormData({ ...formData, fecha: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
+                                    <input type="number" placeholder="Costo (Q)" value={formData.costo} onChange={(e) => setFormData({ ...formData, costo: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
+                                    <div className="flex gap-2">
+                                        <button onClick={handleSubmit} className="flex-1 bg-emerald-500 text-white py-3 rounded-lg font-semibold">Guardar</button>
+                                        <button onClick={() => setShowForm(false)} className={`flex-1 ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-300 text-gray-800'} py-3 rounded-lg font-semibold`}>Cancelar</button>
+                                    </div>
+                                </div>
+                            )}
 
-        const hasVisited = localStorage.getItem('lara_visited');
-        if (hasVisited) {
-            const hash = window.location.hash.substring(1);
-            if (hash && ['inicio', 'historial-registros', 'historial-viajes', 'diezmos', 'resumen'].includes(hash)) {
-                nav(hash, false);
-            } else {
-                nav('inicio', false);
-            }
-        } else {
-            localStorage.setItem('lara_visited', 'true');
-            document.getElementById('welcome').style.display = 'flex';
-        }
+                            <div className="space-y-3">
+                                {viajes.map(viaje => (
+                                    <div key={viaje.id} className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl p-4 shadow`}>
+                                        <div className="flex justify-between items-start mb-2">
+                                            <div>
+                                                <p className={`font-semibold ${darkMode ? 'text-white' : 'text-gray-800'}`}>{viaje.destinoInicial} → {viaje.destinoFinal}</p>
+                                                <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Cliente: {viaje.cliente}</p>
+                                            </div>
+                                            <span className={`px-3 py-1 rounded-full text-xs font-semibold ${viaje.estado === 'Cotizado' ? 'bg-yellow-100 text-yellow-800' : viaje.estado === 'Programado' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'}`}>{viaje.estado}</span>
+                                        </div>
+                                        <p className="text-lg font-bold text-emerald-600 mb-2">Q{parseFloat(viaje.costo).toFixed(2)}</p>
+                                        {viaje.estado !== 'Realizado' && (
+                                            <button onClick={() => marcarRealizado(viaje)} className="w-full bg-emerald-500 text-white py-2 rounded-lg font-semibold flex items-center justify-center gap-2">
+                                                <Icons.Check /> Marcar como Realizado
+                                            </button>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                );
+            };
 
-        if (isMobile) {
-            const inputs = document.querySelectorAll('input, select, textarea');
-            inputs.forEach(input => {
-                input.setAttribute('inputmode', 'text');
-                input.style.fontSize = '16px';
-            });
-        }
+            const CuentasPorCobrarScreen = () => {
+                const [showClientForm, setShowClientForm] = useState(false);
+                const [showDeudaForm, setShowDeudaForm] = useState(false);
+                const [showPagoForm, setShowPagoForm] = useState(false);
+                const [selectedCliente, setSelectedCliente] = useState(null);
+                const [selectedDeuda, setSelectedDeuda] = useState(null);
+                const [clienteForm, setClienteForm] = useState({ nombre: '', telefono: '' });
+                const [deudaForm, setDeudaForm] = useState({ concepto: '', monto: '' });
+                const [pagoForm, setPagoForm] = useState({ monto: '', fecha: new Date().toISOString().split('T')[0] });
 
-        lucide.createIcons();
-    }
+                const handleClienteSubmit = () => {
+                    setClientes([...clientes, { ...clienteForm, id: Date.now() }]);
+                    setShowClientForm(false);
+                    setClienteForm({ nombre: '', telefono: '' });
+                };
 
-    window.addEventListener('DOMContentLoaded', init);
-</script>
-</body>
-</html>
-```
+                const handleDeudaSubmit = () => {
+                    setDeudas([...deudas, { ...deudaForm, id: Date.now(), clienteId: selectedCliente.id, saldo: parseFloat(deudaForm.monto) }]);
+                    setShowDeudaForm(false);
+                    setSelectedCliente(null);
+                    setDeudaForm({ concepto: '', monto: '' });
+                };
+
+                const handlePagoSubmit = () => {
+                    const pago = { ...pagoForm, id: Date.now(), deudaId: selectedDeuda.id };
+                    setPagosDeudas([...pagosDeudas, pago]);
+                    const pagosTotal = [...pagosDeudas, pago].filter(p => p.deudaId === selectedDeuda.id).reduce((sum, p) => sum + parseFloat(p.monto), 0);
+                    setDeudas(deudas.map(d => d.id === selectedDeuda.id ? { ...d, saldo: parseFloat(d.monto) - pagosTotal } : d));
+                    setShowPagoForm(false);
+                    setSelectedDeuda(null);
+                    setPagoForm({ monto: '', fecha: new Date().toISOString().split('T')[0] });
+                };
+
+                return (
+                    <div className={`min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-gray-50'} pb-20`}>
+                        <div className={`${darkMode ? 'bg-gradient-to-r from-emerald-700 to-blue-700' : 'bg-gradient-to-r from-emerald-500 to-blue-600'} text-white p-6`}>
+                            <h1 className="text-2xl font-bold">👥 Cuentas por Cobrar</h1>
+                        </div>
+                        <div className="p-4">
+                            <button onClick={() => setShowClientForm(true)} className="w-full bg-gradient-to-r from-emerald-500 to-blue-600 text-white py-4 rounded-xl font-semibold mb-4 flex items-center justify-center gap-2">
+                                <Icons.Plus /> Nuevo Cliente
+                            </button>
+
+                            {showClientForm && (
+                                <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl p-4 shadow-lg mb-4`}>
+                                    <h3 className={`font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-800'}`}>Nuevo Cliente</h3>
+                                    <input type="text" placeholder="Nombre" value={clienteForm.nombre} onChange={(e) => setClienteForm({ ...clienteForm, nombre: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
+                                    <input type="text" placeholder="Teléfono" value={clienteForm.telefono} onChange={(e) => setClienteForm({ ...clienteForm, telefono: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
+                                    <div className="flex gap-2">
+                                        <button onClick={handleClienteSubmit} className="flex-1 bg-emerald-500 text-white py-3 rounded-lg font-semibold">Guardar</button>
+                                        <button onClick={() => setShowClientForm(false)} className={`flex-1 ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-300 text-gray-800'} py-3 rounded-lg font-semibold`}>Cancelar</button>
+                                    </div>
+                                </div>
+                            )}
+
+                            <div className="space-y-3">
+                                {clientes.map(cliente => {
+                                    const deudasCliente = deudas.filter(d => d.clienteId === cliente.id);
+                                    const totalDeuda = deudasCliente.reduce((sum, d) => sum + d.saldo, 0);
+                                    return (
+                                        <div key={cliente.id} className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl p-4 shadow`}>
+                                            <div className="flex justify-between items-start mb-3">
+                                                <div>
+                                                    <p className={`font-semibold ${darkMode ? 'text-white' : 'text-gray-800'}`}>{cliente.nombre}</p>
+                                                    <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>{cliente.telefono}</p>
+                                                </div>
+                                                <p className="text-red-600 font-bold">Q{totalDeuda.toFixed(2)}</p>
+                                            </div>
+                                            <button onClick={() => { setSelectedCliente(cliente); setShowDeudaForm(true); }} className="w-full bg-blue-500 text-white py-2 rounded-lg text-sm font-semibold mb-2">+ Añadir Deuda</button>
+                                            {deudasCliente.map(deuda => (
+                                                <div key={deuda.id} className={`${darkMode ? 'bg-gray-700' : 'bg-gray-50'} rounded-lg p-3 mb-2`}>
+                                                    <div className="flex justify-between items-start mb-2">
+                                                        <div>
+                                                            <p className={`text-sm font-semibold ${darkMode ? 'text-white' : 'text-gray-800'}`}>{deuda.concepto}</p>
+                                                            <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Total: Q{parseFloat(deuda.monto).toFixed(2)}</p>
+                                                        </div>
+                                                        <p className="text-red-600 font-bold text-sm">Q{deuda.saldo.toFixed(2)}</p>
+                                                    </div>
+                                                    <button onClick={() => { setSelectedDeuda(deuda); setShowPagoForm(true); }} className="w-full bg-emerald-500 text-white py-1 rounded text-xs font-semibold">Registrar Pago</button>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    );
+                                })}
+                            </div>
+
+                            {showDeudaForm && selectedCliente && (
+                                <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+                                    <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl p-4 max-w-md w-full`}>
+                                        <h3 className={`font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-800'}`}>Nueva Deuda - {selectedCliente.nombre}</h3>
+                                        <input type="text" placeholder="Concepto" value={deudaForm.concepto} onChange={(e) => setDeudaForm({ ...deudaForm, concepto: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
+                                        <input type="number" placeholder="Monto (Q)" value={deudaForm.monto} onChange={(e) => setDeudaForm({ ...deudaForm, monto: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
+                                        <div className="flex gap-2">
+                                            <button onClick={handleDeudaSubmit} className="flex-1 bg-emerald-500 text-white py-3 rounded-lg font-semibold">Guardar</button>
+                                            <button onClick={() => { setShowDeudaForm(false); setSelectedCliente(null); }} className={`flex-1 ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-300 text-gray-800'} py-3 rounded-lg font-semibold`}>Cancelar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {showPagoForm && selectedDeuda && (
+                                <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+                                    <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl p-4 max-w-md w-full`}>
+                                        <h3 className={`font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-800'}`}>Registrar Pago</h3>
+                                        <p className={`text-sm mb-3 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Saldo: Q{selectedDeuda.saldo.toFixed(2)}</p>
+                                        <input type="number" placeholder="Monto del pago (Q)" value={pagoForm.monto} onChange={(e) => setPagoForm({ ...pagoForm, monto: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
+                                        <input type="date" value={pagoForm.fecha} onChange={(e) => setPagoForm({ ...pagoForm, fecha: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
+                                        <div className="flex gap-2">
+                                            <button onClick={handlePagoSubmit} className="flex-1 bg-emerald-500 text-white py-3 rounded-lg font-semibold">Guardar</button>
+                                            <button onClick={() => { setShowPagoForm(false); setSelectedDeuda(null); }} className={`flex-1 ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-300 text-gray-800'} py-3 rounded-lg font-semibold`}>Cancelar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                );
+            };
+
+            const DiezmosScreen = () => {
+                const balance = calcularBalanceQuincena();
+                const diezmoSugerido = balance.ganancia * 0.1;
+                const [showForm, setShowForm] = useState(false);
+                const [formData, setFormData] = useState({ monto: '', fecha: new Date().toISOString().split('T')[0], tipo: 'Transferencia' });
+
+                const quincena = getQuincenaActual();
+                const diezmosPagadosQuincena = diezmos.filter(d => {
+                    const fecha = new Date(d.fecha);
+                    return fecha >= quincena.inicio && fecha <= quincena.fin;
+                }).reduce((sum, d) => sum + parseFloat(d.monto), 0);
+
+                const diezmoFaltante = Math.max(0, diezmoSugerido - diezmosPagadosQuincena);
+
+                const handleSubmit = () => {
+                    setDiezmos([...diezmos, { ...formData, id: Date.now(), quincena: balance.quincena }]);
+                    setShowForm(false);
+                    setFormData({ monto: '', fecha: new Date().toISOString().split('T')[0], tipo: 'Transferencia' });
+                };
+
+                return (
+                    <div className={`min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-gray-50'} pb-20`}>
+                        <div className={`${darkMode ? 'bg-gradient-to-r from-emerald-700 to-blue-700' : 'bg-gradient-to-r from-emerald-500 to-blue-600'} text-white p-6`}>
+                            <h1 className="text-2xl font-bold mb-4">💰 Diezmos</h1>
+                            <div className={`${darkMode ? 'bg-gray-800' : 'bg-white/20'} backdrop-blur-sm rounded-xl p-4`}>
+                                <p className="text-sm opacity-90 mb-2">Quincena: {balance.quincena}</p>
+                                <p className="text-2xl font-bold mb-2">Sugerido: Q{diezmoSugerido.toFixed(2)}</p>
+                                <p className="text-sm">Pagado: Q{diezmosPagadosQuincena.toFixed(2)}</p>
+                                <p className="text-sm">Faltante: Q{diezmoFaltante.toFixed(2)}</p>
+                            </div>
+                        </div>
+                        <div className="p-4">
+                            <button onClick={() => setShowForm(true)} className="w-full bg-gradient-to-r from-emerald-500 to-blue-600 text-white py-4 rounded-xl font-semibold mb-4 flex items-center justify-center gap-2">
+                                <Icons.Plus /> Registrar Pago
+                            </button>
+
+                            {showForm && (
+                                <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl p-4 shadow-lg mb-4`}>
+                                    <h3 className={`font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-800'}`}>Nuevo Pago</h3>
+                                    <input type="number" placeholder="Monto (Q)" value={formData.monto} onChange={(e) => setFormData({ ...formData, monto: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
+                                    <input type="date" value={formData.fecha} onChange={(e) => setFormData({ ...formData, fecha: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
+                                    <select value={formData.tipo} onChange={(e) => setFormData({ ...formData, tipo: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`}>
+                                        <option>Transferencia</option>
+                                        <option>Efectivo</option>
+                                    </select>
+                                    <div className="flex gap-2">
+                                        <button onClick={handleSubmit} className="flex-1 bg-emerald-500 text-white py-3 rounded-lg font-semibold">Guardar</button>
+                                        <button onClick={() => setShowForm(false)} className={`flex-1 ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-300 text-gray-800'} py-3 rounded-lg font-semibold`}>Cancelar</button>
+                                    </div>
+                                </div>
+                            )}
+
+                            <div className="space-y-3">
+                                <h3 className={`font-bold ${darkMode ? 'text-white' : 'text-gray-800'}`}>Historial</h3>
+                                {[...diezmos].sort((a, b) => new Date(b.fecha) - new Date(a.fecha)).map(pago => (
+                                    <div key={pago.id} className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl p-4 shadow`}>
+                                        <div className="flex justify-between items-start">
+                                            <div>
+                                                <p className="font-semibold text-emerald-600">Q{parseFloat(pago.monto).toFixed(2)}</p>
+                                                <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>{new Date(pago.fecha).toLocaleDateString('es-GT')} - {pago.tipo}</p>
+                                            </div>
+                                            <button onClick={() => setDiezmos(diezmos.filter(d => d.id !== pago.id))} className="text-red-600"><Icons.Trash2 /></button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                );
+            };
+
+            const InfoFinancieraScreen = () => {
+                const [showForm, setShowForm] = useState(false);
+                const [formData, setFormData] = useState({ banco: '', nombreCuenta: '', numeroCuenta: '', notas: '' });
+
+                const handleSubmit = () => {
+                    setCuentasFinancieras([...cuentasFinancieras, { ...formData, id: Date.now() }]);
+                    setShowForm(false);
+                    setFormData({ banco: '', nombreCuenta: '', numeroCuenta: '', notas: '' });
+                };
+
+                return (
+                    <div className={`min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-gray-50'} pb-20`}>
+                        <div className={`${darkMode ? 'bg-gradient-to-r from-emerald-700 to-blue-700' : 'bg-gradient-to-r from-emerald-500 to-blue-600'} text-white p-6`}>
+                            <h1 className="text-2xl font-bold">🏦 Info Financiera</h1>
+                        </div>
+                        <div className="p-4">
+                            <button onClick={() => setShowForm(true)} className="w-full bg-gradient-to-r from-emerald-500 to-blue-600 text-white py-4 rounded-xl font-semibold mb-4 flex items-center justify-center gap-2">
+                                <Icons.Plus /> Nueva Cuenta
+                            </button>
+
+                            {showForm && (
+                                <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl p-4 shadow-lg mb-4`}>
+                                    <h3 className={`font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-800'}`}>Nueva Cuenta</h3>
+                                    <input type="text" placeholder="Banco" value={formData.banco} onChange={(e) => setFormData({ ...formData, banco: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
+                                    <input type="text" placeholder="Nombre de cuenta" value={formData.nombreCuenta} onChange={(e) => setFormData({ ...formData, nombreCuenta: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
+                                    <input type="text" placeholder="Número de cuenta" value={formData.numeroCuenta} onChange={(e) => setFormData({ ...formData, numeroCuenta: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
+                                    <textarea placeholder="Notas" value={formData.notas} onChange={(e) => setFormData({ ...formData, notas: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} rows="3" />
+                                    <div className="flex gap-2">
+                                        <button onClick={handleSubmit} className="flex-1 bg-emerald-500 text-white py-3 rounded-lg font-semibold">Guardar</button>
+                                        <button onClick={() => setShowForm(false)} className={`flex-1 ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-300 text-gray-800'} py-3 rounded-lg font-semibold`}>Cancelar</button>
+                                    </div>
+                                </div>
+                            )}
+
+                            <div className="space-y-3">
+                                {cuentasFinancieras.map(cuenta => (
+                                    <div key={cuenta.id} className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl p-4 shadow`}>
+                                        <div className="flex justify-between">
+                                            <div>
+                                                <p className={`font-semibold ${darkMode ? 'text-white' : 'text-gray-800'}`}>{cuenta.banco}</p>
+                                                <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>{cuenta.nombreCuenta}</p>
+                                                <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>{cuenta.numeroCuenta}</p>
+                                            </div>
+                                            <button onClick={() => setCuentasFinancieras(cuentasFinancieras.filter(c => c.id !== cuenta.id))} className="text-red-600"><Icons.Trash2 /></button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                );
+            };
+
+            const NotasScreen = () => {
+                const [showForm, setShowForm] = useState(false);
+                const [formData, setFormData] = useState({ titulo: '', contenido: '' });
+
+                const handleSubmit = () => {
+                    setNotas([...notas, { ...formData, id: Date.now(), fecha: new Date().toISOString() }]);
+                    setShowForm(false);
+                    setFormData({ titulo: '', contenido: '' });
+                };
+
+                return (
+                    <div className={`min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-gray-50'} pb-20`}>
+                        <div className={`${darkMode ? 'bg-gradient-to-r from-emerald-700 to-blue-700' : 'bg-gradient-to-r from-emerald-500 to-blue-600'} text
