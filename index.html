@@ -3,621 +3,561 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="LaraApp7 - Multi Servicios de Transporte">
     <meta name="theme-color" content="#10b981">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <title>LaraApp7 - Multi Servicios</title>
+    <title>LaraApp7 - Multi Servicios LARA</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-        * { font-family: 'Inter', sans-serif; margin: 0; padding: 0; box-sizing: border-box; }
-        body { overflow-x: hidden; }
-        .dark { color-scheme: dark; }
-    </style>
 </head>
-<body>
-    <div id="root"></div>
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script type="text/babel">
-        const { useState, useEffect } = React;
-
-        const Icons = {
-            Home: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>,
-            DollarSign: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>,
-            Calendar: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>,
-            Users: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>,
-            FileText: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>,
-            Settings: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>,
-            Plus: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>,
-            Trash2: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>,
-            Check: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>,
-            Moon: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>,
-            Sun: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>,
-            Camera: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>,
-            LogOut: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>,
-            Edit2: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+<body class="m-0 p-0">
+    <div id="app"></div>
+    <script>
+        let App = {
+            vista: 'login',
+            darkMode: false,
+            config: {
+                nombre: 'LaraApp7\nMULTI SERVICIOS LARA',
+                eslogan: 'Servicio de transporte privado',
+                detalle: 'Moviendo vidas',
+                logo: null
+            },
+            registros: [],
+            viajes: [],
+            clientes: [],
+            deudas: [],
+            diezmos: [],
+            infoFinanciera: [],
+            notas: [],
+            categorias: ['Uber diario','Uber semanal','Gasolina','Internet','Privado','Mantenimiento carro','Renta CARRO','Otros']
         };
 
-        function LaraApp() {
-            const [currentView, setCurrentView] = useState('login');
-            const [darkMode, setDarkMode] = useState(() => {
-                const saved = localStorage.getItem('darkMode');
-                return saved ? JSON.parse(saved) : false;
+        const cargar = () => {
+            const data = localStorage.getItem('LaraApp7Data');
+            if (data) App = {...App, ...JSON.parse(data)};
+        };
+
+        const guardar = () => {
+            localStorage.setItem('LaraApp7Data', JSON.stringify(App));
+        };
+
+        const getQuincena = () => {
+            const hoy = new Date();
+            const dia = hoy.getDate();
+            const mes = hoy.getMonth();
+            const año = hoy.getFullYear();
+            const meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+            
+            if (dia <= 15) {
+                return {
+                    inicio: new Date(año, mes, 1),
+                    fin: new Date(año, mes, 15, 23, 59, 59),
+                    texto: `1-15 de ${meses[mes]}`
+                };
+            } else {
+                const ultimoDia = new Date(año, mes + 1, 0).getDate();
+                return {
+                    inicio: new Date(año, mes, 16),
+                    fin: new Date(año, mes, ultimoDia, 23, 59, 59),
+                    texto: `16-${ultimoDia} de ${meses[mes]}`
+                };
+            }
+        };
+
+        const calcBalance = () => {
+            const q = getQuincena();
+            const regs = App.registros.filter(r => {
+                const f = new Date(r.fecha);
+                return f >= q.inicio && f <= q.fin;
             });
             
-            const [appSettings, setAppSettings] = useState(() => {
-                const saved = localStorage.getItem('appSettings');
-                return saved ? JSON.parse(saved) : {
-                    nombre: 'LaraApp7\nMULTI SERVICIOS LARA',
-                    eslogan: 'Servicio de transporte privado',
-                    detalle: 'Moviendo vidas',
-                    logo: null
-                };
-            });
-
-            const [registros, setRegistros] = useState(() => {
-                const saved = localStorage.getItem('registros');
-                return saved ? JSON.parse(saved) : [];
-            });
-
-            const [viajes, setViajes] = useState(() => {
-                const saved = localStorage.getItem('viajes');
-                return saved ? JSON.parse(saved) : [];
-            });
-
-            const [clientes, setClientes] = useState(() => {
-                const saved = localStorage.getItem('clientes');
-                return saved ? JSON.parse(saved) : [];
-            });
-
-            const [deudas, setDeudas] = useState(() => {
-                const saved = localStorage.getItem('deudas');
-                return saved ? JSON.parse(saved) : [];
-            });
-
-            const [pagosDeudas, setPagosDeudas] = useState(() => {
-                const saved = localStorage.getItem('pagosDeudas');
-                return saved ? JSON.parse(saved) : [];
-            });
-
-            const [diezmos, setDiezmos] = useState(() => {
-                const saved = localStorage.getItem('diezmos');
-                return saved ? JSON.parse(saved) : [];
-            });
-
-            const [cuentasFinancieras, setCuentasFinancieras] = useState(() => {
-                const saved = localStorage.getItem('cuentasFinancieras');
-                return saved ? JSON.parse(saved) : [];
-            });
-
-            const [notas, setNotas] = useState(() => {
-                const saved = localStorage.getItem('notas');
-                return saved ? JSON.parse(saved) : [];
-            });
-
-            const [categorias, setCategorias] = useState(() => {
-                const saved = localStorage.getItem('categorias');
-                return saved ? JSON.parse(saved) : [
-                    'Uber diario', 'Uber semanal', 'Gasolina', 'Internet',
-                    'Privado', 'Mantenimiento carro', 'Renta CARRO', 'Otros'
-                ];
-            });
-
-            useEffect(() => { localStorage.setItem('darkMode', JSON.stringify(darkMode)); }, [darkMode]);
-            useEffect(() => { localStorage.setItem('appSettings', JSON.stringify(appSettings)); }, [appSettings]);
-            useEffect(() => { localStorage.setItem('registros', JSON.stringify(registros)); }, [registros]);
-            useEffect(() => { localStorage.setItem('viajes', JSON.stringify(viajes)); }, [viajes]);
-            useEffect(() => { localStorage.setItem('clientes', JSON.stringify(clientes)); }, [clientes]);
-            useEffect(() => { localStorage.setItem('deudas', JSON.stringify(deudas)); }, [deudas]);
-            useEffect(() => { localStorage.setItem('pagosDeudas', JSON.stringify(pagosDeudas)); }, [pagosDeudas]);
-            useEffect(() => { localStorage.setItem('diezmos', JSON.stringify(diezmos)); }, [diezmos]);
-            useEffect(() => { localStorage.setItem('cuentasFinancieras', JSON.stringify(cuentasFinancieras)); }, [cuentasFinancieras]);
-            useEffect(() => { localStorage.setItem('notas', JSON.stringify(notas)); }, [notas]);
-            useEffect(() => { localStorage.setItem('categorias', JSON.stringify(categorias)); }, [categorias]);
-
-            const getQuincenaActual = () => {
-                const hoy = new Date();
-                const dia = hoy.getDate();
-                const mes = hoy.getMonth();
-                const año = hoy.getFullYear();
-                
-                if (dia <= 15) {
-                    return {
-                        inicio: new Date(año, mes, 1),
-                        fin: new Date(año, mes, 15),
-                        texto: `1-15 de ${hoy.toLocaleString('es', { month: 'long' })}`
-                    };
-                } else {
-                    const ultimoDia = new Date(año, mes + 1, 0).getDate();
-                    return {
-                        inicio: new Date(año, mes, 16),
-                        fin: new Date(año, mes, ultimoDia),
-                        texto: `16-${ultimoDia} de ${hoy.toLocaleString('es', { month: 'long' })}`
-                    };
-                }
+            const ingresos = regs.filter(r => r.tipo === 'Ingreso').reduce((s, r) => s + parseFloat(r.monto || 0), 0);
+            const gastos = regs.filter(r => r.tipo === 'Gasto').reduce((s, r) => s + parseFloat(r.monto || 0), 0);
+            
+            return {
+                ingresos,
+                gastos,
+                ganancia: ingresos - gastos,
+                quincena: q.texto
             };
+        };
 
-            const calcularBalanceQuincena = () => {
-                const quincena = getQuincenaActual();
-                const registrosQuincena = registros.filter(r => {
-                    const fecha = new Date(r.fecha);
-                    return fecha >= quincena.inicio && fecha <= quincena.fin;
-                });
+        const ir = (v) => {
+            App.vista = v;
+            render();
+        };
+const render = () => {
+            const a = document.getElementById('app');
+            const d = App.darkMode;
 
-                const ingresos = registrosQuincena.filter(r => r.tipo === 'Ingreso').reduce((sum, r) => sum + parseFloat(r.monto), 0);
-                const gastos = registrosQuincena.filter(r => r.tipo === 'Gasto').reduce((sum, r) => sum + parseFloat(r.monto), 0);
-
-                return { ingresos, gastos, ganancia: ingresos - gastos, quincena: quincena.texto };
-            };
-
-            const LoginScreen = () => (
-                <div className={`min-h-screen flex items-center justify-center p-4 ${darkMode ? 'bg-gray-900' : 'bg-gradient-to-br from-emerald-50 to-blue-50'}`}>
-                    <div className={`w-full max-w-md ${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-2xl p-8`}>
-                        <div className="text-center mb-8">
-                            {appSettings.logo ? (
-                                <img src={appSettings.logo} alt="Logo" className="w-32 h-32 mx-auto mb-4 rounded-full object-cover shadow-lg" />
-                            ) : (
-                                <div className="w-32 h-32 mx-auto mb-4 bg-gradient-to-br from-emerald-500 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
-                                    <Icons.Calendar />
-                                </div>
-                            )}
-                            <h1 className={`text-2xl font-bold mb-2 whitespace-pre-line ${darkMode ? 'text-white' : 'text-gray-800'}`}>
-                                {appSettings.nombre}
-                            </h1>
-                            <p className={`text-lg ${darkMode ? 'text-emerald-400' : 'text-emerald-600'} font-semibold mb-1`}>
-                                {appSettings.eslogan}
-                            </p>
-                            <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>{appSettings.detalle}</p>
+            if (App.vista === 'login') {
+                a.innerHTML = `
+                    <div class="min-h-screen flex items-center justify-center p-4 ${d?'bg-gray-900':'bg-gradient-to-br from-emerald-50 to-blue-50'}">
+                        <div class="${d?'bg-gray-800':'bg-white'} w-full max-w-md rounded-2xl shadow-2xl p-8">
+                            <div class="text-center mb-8">
+                                ${App.config.logo ? `<img src="${App.config.logo}" class="w-32 h-32 mx-auto mb-4 rounded-full object-cover shadow-lg">` :
+                                `<div class="w-32 h-32 mx-auto mb-4 bg-gradient-to-br from-emerald-500 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
+                                    <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                </div>`}
+                                <h1 class="text-2xl font-bold mb-2 whitespace-pre-line ${d?'text-white':'text-gray-800'}">${App.config.nombre}</h1>
+                                <p class="text-lg ${d?'text-emerald-400':'text-emerald-600'} font-semibold mb-1">${App.config.eslogan}</p>
+                                <p class="${d?'text-gray-400':'text-gray-600'}">${App.config.detalle}</p>
+                            </div>
+                            <button onclick="ir('dashboard')" class="w-full bg-gradient-to-r from-emerald-500 to-blue-600 text-white py-4 rounded-xl font-semibold text-lg hover:shadow-lg transition">🚀 Entrar</button>
                         </div>
-                        <button
-                            onClick={() => setCurrentView('dashboard')}
-                            className="w-full bg-gradient-to-r from-emerald-500 to-blue-600 text-white py-4 rounded-xl font-semibold text-lg hover:shadow-lg transform hover:scale-105 transition"
-                        >
-                            🚀 Entrar
-                        </button>
+                    </div>
+                `;
+            } else if (App.vista === 'dashboard') {
+                const bal = calcBalance();
+                a.innerHTML = `
+                    <div class="min-h-screen ${d?'bg-gray-900':'bg-gray-50'} pb-20">
+                        <div class="${d?'bg-gradient-to-r from-emerald-700 to-blue-700':'bg-gradient-to-r from-emerald-500 to-blue-600'} text-white p-6 rounded-b-3xl shadow-lg">
+                            <h1 class="text-2xl font-bold mb-4">📊 Dashboard</h1>
+                            <div class="${d?'bg-gray-800':'bg-white/20'} backdrop-blur-sm rounded-xl p-4">
+                                <p class="text-sm opacity-90 mb-2">Quincena: ${bal.quincena}</p>
+                                <div class="grid grid-cols-3 gap-3">
+                                    <div><p class="text-xs opacity-80">Ingresos</p><p class="text-lg font-bold">Q${bal.ingresos.toFixed(2)}</p></div>
+                                    <div><p class="text-xs opacity-80">Gastos</p><p class="text-lg font-bold">Q${bal.gastos.toFixed(2)}</p></div>
+                                    <div><p class="text-xs opacity-80">Ganancia</p><p class="text-lg font-bold">Q${bal.ganancia.toFixed(2)}</p></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4 grid grid-cols-2 gap-4 mt-4">
+                            ${[['diezmos','💰','Diezmos'],['notas','📝','Notas'],['infoFinanciera','🏦','Info Financiera'],['ajustes','⚙️','Ajustes']].map(([v,i,l])=>`
+                                <button onclick="ir('${v}')" class="${d?'bg-gray-800':'bg-white'} p-6 rounded-xl shadow-lg hover:shadow-xl transition">
+                                    <div class="text-4xl mb-2">${i}</div>
+                                    <p class="font-semibold ${d?'text-white':'text-gray-800'}">${l}</p>
+                                </button>
+                            `).join('')}
+                        </div>
+                        ${navBar()}
+                    </div>
+                `;
+            } else if (App.vista === 'registros') {
+                a.innerHTML = `
+                    <div class="min-h-screen ${d?'bg-gray-900':'bg-gray-50'} pb-20">
+                        <div class="${d?'bg-gradient-to-r from-emerald-700 to-blue-700':'bg-gradient-to-r from-emerald-500 to-blue-600'} text-white p-6">
+                            <h1 class="text-2xl font-bold">📖 Libro Diario</h1>
+                        </div>
+                        <div class="p-4">
+                            <button onclick="abrirFormReg()" class="w-full bg-gradient-to-r from-emerald-500 to-blue-600 text-white py-4 rounded-xl font-semibold mb-4 flex items-center justify-center gap-2">
+                                <span class="text-xl">➕</span> Añadir Registro
+                            </button>
+                            <div class="space-y-3">
+                                ${App.registros.sort((a,b)=>new Date(b.fecha)-new Date(a.fecha)).map((r,i)=>`
+                                    <div class="${d?'bg-gray-800':'bg-white'} rounded-xl p-4 shadow">
+                                        <div class="flex justify-between items-start mb-2">
+                                            <div>
+                                                <p class="font-semibold ${r.tipo==='Ingreso'?'text-emerald-600':'text-red-600'}">${r.tipo==='Ingreso'?'📈':'📉'} Q${parseFloat(r.monto).toFixed(2)}</p>
+                                                <p class="text-sm ${d?'text-gray-400':'text-gray-600'}">${new Date(r.fecha).toLocaleDateString('es-GT')}</p>
+                                            </div>
+                                            <div class="flex gap-2">
+                                                <button onclick="editReg(${i})" class="text-blue-600 text-xl">✏️</button>
+                                                <button onclick="delReg(${i})" class="text-red-600 text-xl">🗑️</button>
+                                            </div>
+                                        </div>
+                                        <p class="text-sm ${d?'text-gray-300':'text-gray-700'}"><strong>Categoría:</strong> ${r.categoria}</p>
+                                        <p class="text-sm ${d?'text-gray-400':'text-gray-600'}">${r.detalle}</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        ${navBar()}
+                    </div>
+                `;
+            } else if (App.vista === 'viajes') {
+                a.innerHTML = `
+                    <div class="min-h-screen ${d?'bg-gray-900':'bg-gray-50'} pb-20">
+                        <div class="${d?'bg-gradient-to-r from-emerald-700 to-blue-700':'bg-gradient-to-r from-emerald-500 to-blue-600'} text-white p-6">
+                            <h1 class="text-2xl font-bold">🚗 Viajes</h1>
+                        </div>
+                        <div class="p-4">
+                            <button onclick="abrirFormViaje()" class="w-full bg-gradient-to-r from-emerald-500 to-blue-600 text-white py-4 rounded-xl font-semibold mb-4 flex items-center justify-center gap-2">
+                                <span class="text-xl">➕</span> Nuevo Viaje
+                            </button>
+                            <div class="space-y-3">
+                                ${App.viajes.map((v,i)=>`
+                                    <div class="${d?'bg-gray-800':'bg-white'} rounded-xl p-4 shadow">
+                                        <div class="flex justify-between items-start mb-2">
+                                            <div>
+                                                <p class="font-semibold ${d?'text-white':'text-gray-800'}">${v.origen} → ${v.destino}</p>
+                                                <p class="text-sm ${d?'text-gray-400':'text-gray-600'}">Cliente: ${v.cliente}</p>
+                                            </div>
+                                            <span class="px-3 py-1 rounded-full text-xs font-semibold ${
+                                                v.estado==='Cotizado'?'bg-yellow-100 text-yellow-800':
+                                                v.estado==='Programado'?'bg-blue-100 text-blue-800':
+                                                'bg-green-100 text-green-800'
+                                            }">${v.estado}</span>
+                                        </div>
+                                        <p class="text-lg font-bold text-emerald-600 mb-2">Q${parseFloat(v.costo).toFixed(2)}</p>
+                                        ${v.estado!=='Realizado'?`<button onclick="realizarViaje(${i})" class="w-full bg-emerald-500 text-white py-2 rounded-lg font-semibold">✓ Marcar como Realizado</button>`:''}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        ${navBar()}
+                    </div>
+                `;
+} else if (App.vista === 'diezmos') {
+                const bal = calcBalance();
+                const sug = bal.ganancia * 0.1;
+                const q = getQuincena();
+                const pag = App.diezmos.filter(dz=>{
+                    const f = new Date(dz.fecha);
+                    return f>=q.inicio && f<=q.fin;
+                }).reduce((s,dz)=>s+parseFloat(dz.monto||0),0);
+                const falt = Math.max(0, sug - pag);
+
+                a.innerHTML = `
+                    <div class="min-h-screen ${d?'bg-gray-900':'bg-gray-50'} pb-20">
+                        <div class="${d?'bg-gradient-to-r from-emerald-700 to-blue-700':'bg-gradient-to-r from-emerald-500 to-blue-600'} text-white p-6">
+                            <h1 class="text-2xl font-bold mb-4">💰 Diezmos</h1>
+                            <div class="${d?'bg-gray-800':'bg-white/20'} backdrop-blur-sm rounded-xl p-4">
+                                <p class="text-sm opacity-90 mb-2">Quincena: ${bal.quincena}</p>
+                                <p class="text-2xl font-bold mb-2">Pago sugerido: Q${sug.toFixed(2)}</p>
+                                <p class="text-sm">Pagado: Q${pag.toFixed(2)}</p>
+                                <p class="text-sm">Faltante: Q${falt.toFixed(2)}</p>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <button onclick="abrirFormDiezmo()" class="w-full bg-gradient-to-r from-emerald-500 to-blue-600 text-white py-4 rounded-xl font-semibold mb-4">➕ Registrar Pago</button>
+                            <h3 class="font-bold mb-3 ${d?'text-white':'text-gray-800'}">Historial</h3>
+                            <div class="space-y-3">
+                                ${App.diezmos.sort((a,b)=>new Date(b.fecha)-new Date(a.fecha)).map((dz,i)=>`
+                                    <div class="${d?'bg-gray-800':'bg-white'} rounded-xl p-4 shadow">
+                                        <div class="flex justify-between">
+                                            <div>
+                                                <p class="font-semibold text-emerald-600">Q${parseFloat(dz.monto).toFixed(2)}</p>
+                                                <p class="text-sm ${d?'text-gray-400':'text-gray-600'}">${new Date(dz.fecha).toLocaleDateString('es-GT')} - ${dz.tipo}</p>
+                                            </div>
+                                            <div class="flex gap-2">
+                                                <button onclick="editDiezmo(${i})" class="text-blue-600">✏️</button>
+                                                <button onclick="delDiezmo(${i})" class="text-red-600">🗑️</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        ${navBar()}
+                    </div>
+                `;
+            } else if (App.vista === 'resumen') {
+                const bal = calcBalance();
+                const sug = bal.ganancia * 0.1;
+                const q = getQuincena();
+                const pag = App.diezmos.filter(dz=>{
+                    const f = new Date(dz.fecha);
+                    return f>=q.inicio && f<=q.fin;
+                }).reduce((s,dz)=>s+parseFloat(dz.monto||0),0);
+
+                a.innerHTML = `
+                    <div class="min-h-screen ${d?'bg-gray-900':'bg-gray-50'} pb-20">
+                        <div class="${d?'bg-gradient-to-r from-emerald-700 to-blue-700':'bg-gradient-to-r from-emerald-500 to-blue-600'} text-white p-6">
+                            <h1 class="text-2xl font-bold">📊 Resumen Financiero</h1>
+                            <p class="text-sm opacity-90 mt-2">Período: ${bal.quincena}</p>
+                        </div>
+                        <div class="p-4 space-y-4">
+                            <div class="${d?'bg-gray-800':'bg-white'} rounded-xl p-6 shadow-lg">
+                                <h3 class="font-bold text-lg mb-4 ${d?'text-white':'text-gray-800'}">💰 Balance General</h3>
+                                <div class="space-y-3">
+                                    <div class="flex justify-between"><span class="${d?'text-gray-300':'text-gray-600'}">Total Ingresos:</span><span class="font-bold text-emerald-600 text-xl">Q${bal.ingresos.toFixed(2)}</span></div>
+                                    <div class="flex justify-between"><span class="${d?'text-gray-300':'text-gray-600'}">Total Gastos:</span><span class="font-bold text-red-600 text-xl">Q${bal.gastos.toFixed(2)}</span></div>
+                                    <div class="border-t ${d?'border-gray-700':'border-gray-200'} pt-3 flex justify-between">
+                                        <span class="font-semibold ${d?'text-white':'text-gray-800'}">Balance Neto:</span>
+                                        <span class="font-bold text-2xl text-emerald-600">Q${bal.ganancia.toFixed(2)}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="${d?'bg-gray-800':'bg-white'} rounded-xl p-6 shadow-lg">
+                                <h3 class="font-bold text-lg mb-4 ${d?'text-white':'text-gray-800'}">🙏 Diezmos</h3>
+                                <div class="space-y-3">
+                                    <div class="flex justify-between"><span class="${d?'text-gray-300':'text-gray-600'}">Sugerido (10%):</span><span class="font-bold text-blue-600">Q${sug.toFixed(2)}</span></div>
+                                    <div class="flex justify-between"><span class="${d?'text-gray-300':'text-gray-600'}">Total Pagado:</span><span class="font-bold text-emerald-600">Q${pag.toFixed(2)}</span></div>
+                                    <div class="flex justify-between"><span class="${d?'text-gray-300':'text-gray-600'}">Faltante:</span><span class="font-bold text-yellow-600">Q${Math.max(0,sug-pag).toFixed(2)}</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        ${navBar()}
+                    </div>
+                `;
+            } else if (App.vista === 'infoFinanciera') {
+                a.innerHTML = `
+                    <div class="min-h-screen ${d?'bg-gray-900':'bg-gray-50'} pb-20">
+                        <div class="${d?'bg-gradient-to-r from-emerald-700 to-blue-700':'bg-gradient-to-r from-emerald-500 to-blue-600'} text-white p-6">
+                            <h1 class="text-2xl font-bold">🏦 Información Financiera</h1>
+                        </div>
+                        <div class="p-4">
+                            <button onclick="abrirFormInfo()" class="w-full bg-gradient-to-r from-emerald-500 to-blue-600 text-white py-4 rounded-xl font-semibold mb-4">➕ Nueva Cuenta</button>
+                            <div class="space-y-3">
+                                ${App.infoFinanciera.map((info,i)=>`
+                                    <div class="${d?'bg-gray-800':'bg-white'} rounded-xl p-4 shadow">
+                                        <div class="flex justify-between items-start mb-3">
+                                            <div class="flex-1">
+                                                <p class="font-bold ${d?'text-white':'text-gray-800'} text-lg">${info.banco||'Sin banco'}</p>
+                                                <p class="text-sm ${d?'text-emerald-400':'text-emerald-600'} font-semibold">${info.nombreCuenta||''}</p>
+                                            </div>
+                                            <div class="flex gap-2">
+                                                <button onclick="editInfo(${i})" class="text-blue-600">✏️</button>
+                                                <button onclick="delInfo(${i})" class="text-red-600">🗑️</button>
+                                            </div>
+                                        </div>
+                                        <div class="grid grid-cols-2 gap-2 text-sm">
+                                            ${info.numeroCuenta?`<p class="${d?'text-gray-400':'text-gray-600'}"><strong>Cuenta:</strong> ${info.numeroCuenta}</p>`:''}
+                                            ${info.tipoCuenta?`<p class="${d?'text-gray-400':'text-gray-600'}"><strong>Tipo:</strong> ${info.tipoCuenta}</p>`:''}
+                                            ${info.moneda?`<p class="${d?'text-gray-400':'text-gray-600'}"><strong>Moneda:</strong> ${info.moneda}</p>`:''}
+                                            ${info.numeroRegistrado?`<p class="${d?'text-gray-400':'text-gray-600'}"><strong>Tel:</strong> ${info.numeroRegistrado}</p>`:''}
+                                            ${info.nit?`<p class="${d?'text-gray-400':'text-gray-600'}"><strong>NIT:</strong> ${info.nit}</p>`:''}
+                                            ${info.dpi?`<p class="${d?'text-gray-400':'text-gray-600'}"><strong>DPI:</strong> ${info.dpi}</p>`:''}
+                                            ${info.tarjeta?`<p class="${d?'text-gray-400':'text-gray-600'}"><strong>Tarjeta:</strong> ${info.tarjeta}</p>`:''}
+                                            ${info.codigo?`<p class="${d?'text-gray-400':'text-gray-600'}"><strong>Código:</strong> ${info.codigo}</p>`:''}
+                                            ${info.codigoApp?`<p class="${d?'text-gray-400':'text-gray-600'}"><strong>Código App:</strong> ${info.codigoApp}</p>`:''}
+                                            ${info.clienteApp?`<p class="${d?'text-gray-400':'text-gray-600'}"><strong>Cliente App:</strong> ${info.clienteApp}</p>`:''}
+                                        </div>
+                                        ${info.notas?`<p class="text-xs ${d?'text-gray-500':'text-gray-500'} mt-3 p-2 ${d?'bg-gray-700':'bg-gray-50'} rounded"><strong>Notas:</strong> ${info.notas}</p>`:''}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        ${navBar()}
+                    </div>
+                `;
+            } else if (App.vista === 'notas') {
+                a.innerHTML = `
+                    <div class="min-h-screen ${d?'bg-gray-900':'bg-gray-50'} pb-20">
+                        <div class="${d?'bg-gradient-to-r from-emerald-700 to-blue-700':'bg-gradient-to-r from-emerald-500 to-blue-600'} text-white p-6">
+                            <h1 class="text-2xl font-bold">📝 Bloc de Notas</h1>
+                        </div>
+                        <div class="p-4">
+                            <button onclick="abrirFormNota()" class="w-full bg-gradient-to-r from-emerald-500 to-blue-600 text-white py-4 rounded-xl font-semibold mb-4">➕ Nueva Nota</button>
+                            <div class="space-y-3">
+                                ${App.notas.sort((a,b)=>new Date(b.fecha||0)-new Date(a.fecha||0)).map((n,i)=>`
+                                    <div class="${d?'bg-gray-800':'bg-white'} rounded-xl p-4 shadow">
+                                        <div class="flex justify-between items-start">
+                                            <div class="flex-1">
+                                                <p class="font-semibold ${d?'text-white':'text-gray-800'} mb-2">${n.titulo}</p>
+                                                <p class="text-sm ${d?'text-gray-400':'text-gray-600'}">${n.contenido}</p>
+                                            </div>
+                                            <div class="flex gap-2 ml-2">
+                                                <button onclick="editNota(${i})" class="text-blue-600">✏️</button>
+                                                <button onclick="delNota(${i})" class="text-red-600">🗑️</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        ${navBar()}
+                    </div>
+                `;
+            } else if (App.vista === 'ajustes') {
+                a.innerHTML = `
+                    <div class="min-h-screen ${d?'bg-gray-900':'bg-gray-50'} pb-20">
+                        <div class="${d?'bg-gradient-to-r from-emerald-700 to-blue-700':'bg-gradient-to-r from-emerald-500 to-blue-600'} text-white p-6">
+                            <h1 class="text-2xl font-bold">⚙️ Ajustes</h1>
+                        </div>
+                        <div class="p-4">
+                            <div class="${d?'bg-gray-800':'bg-white'} rounded-xl p-4 shadow-lg mb-4">
+                                <h3 class="font-bold mb-4 ${d?'text-white':'text-gray-800'}">Logo</h3>
+                                ${App.config.logo?`<div class="flex justify-center mb-4"><img src="${App.config.logo}" class="w-32 h-32 rounded-full object-cover"></div>`:''}
+                                <label class="w-full bg-blue-500 text-white py-3 rounded-lg font-semibold flex items-center justify-center gap-2 cursor-pointer">
+                                    📷 Subir Logo
+                                    <input type="file" accept="image/*" onchange="subirLogo(event)" class="hidden">
+                                </label>
+                            </div>
+                            <div class="${d?'bg-gray-800':'bg-white'} rounded-xl p-4 shadow-lg mb-4">
+                                <h3 class="font-bold mb-4 ${d?'text-white':'text-gray-800'}">Información</h3>
+                                <textarea id="cfgNombre" class="w-full p-3 border rounded-lg mb-3 ${d?'bg-gray-700 text-white':''}" rows="2">${App.config.nombre}</textarea>
+                                <input type="text" id="cfgEslogan" value="${App.config.eslogan}" class="w-full p-3 border rounded-lg mb-3 ${d?'bg-gray-700 text-white':''}">
+                                <input type="text" id="cfgDetalle" value="${App.config.detalle}" class="w-full p-3 border rounded-lg mb-3 ${d?'bg-gray-700 text-white':''}">
+                            </div>
+                            <div class="${d?'bg-gray-800':'bg-white'} rounded-xl p-4 shadow-lg mb-4">
+                                <button onclick="toggleDark()" class="w-full bg-gradient-to-r from-gray-700 to-gray-900 text-white py-3 rounded-lg font-semibold">${d?'☀️ Modo Claro':'🌙 Modo Oscuro'}</button>
+                            </div>
+                            <button onclick="guardarConfig()" class="w-full bg-gradient-to-r from-emerald-500 to-blue-600 text-white py-4 rounded-xl font-semibold mb-3">💾 Guardar</button>
+                            <button onclick="if(confirm('¿Cerrar sesión?'))ir('login')" class="w-full bg-red-600 text-white py-4 rounded-xl font-semibold">🚪 Cerrar Sesión</button>
+                        </div>
+                        ${navBar()}
+                    </div>
+                `;
+            }
+            guardar();
+        };
+
+        const navBar = () => {
+            const d = App.darkMode;
+            const items = [['dashboard','🏠','Inicio'],['registros','📖','Registros'],['viajes','🚗','Viajes'],['diezmos','💰','Diezmos'],['resumen','📊','Resumen']];
+            return `
+                <div class="fixed bottom-0 left-0 right-0 ${d?'bg-gray-800':'bg-white'} border-t ${d?'border-gray-700':'border-gray-200'} shadow-lg z-50">
+                    <div class="flex justify-around items-center h-16">
+                        ${items.map(([v,i,l])=>`
+                            <button onclick="ir('${v}')" class="flex flex-col items-center justify-center flex-1 h-full ${App.vista===v?'text-emerald-600':d?'text-gray-400':'text-gray-600'}">
+                                <div class="text-2xl">${i}</div>
+                                <span class="text-xs mt-1">${l}</span>
+                            </button>
+                        `).join('')}
                     </div>
                 </div>
-            );
+            `;
+        };
+const abrirFormReg = (idx=null) => {
+            const d = App.darkMode;
+            const edit = idx!==null;
+            const r = edit ? App.registros[idx] : {fecha:new Date().toISOString().split('T')[0],monto:'',tipo:'Ingreso',categoria:'',detalle:''};
+            crearModal(`
+                <h3 class="font-bold mb-4 ${d?'text-white':'text-gray-800'}">${edit?'Editar':'Nuevo'} Registro</h3>
+                <input type="date" id="rFecha" value="${r.fecha}" class="w-full p-3 border rounded-lg mb-3 ${d?'bg-gray-700 text-white':''}">
+                <input type="number" id="rMonto" placeholder="Monto (Q)" value="${r.monto}" class="w-full p-3 border rounded-lg mb-3 ${d?'bg-gray-700 text-white':''}">
+                <select id="rTipo" class="w-full p-3 border rounded-lg mb-3 ${d?'bg-gray-700 text-white':''}">
+                    <option ${r.tipo==='Ingreso'?'selected':''}>Ingreso</option>
+                    <option ${r.tipo==='Gasto'?'selected':''}>Gasto</option>
+                </select>
+                <select id="rCat" onchange="if(this.value==='Otros')document.getElementById('rOtra').style.display='block';else document.getElementById('rOtra').style.display='none';" class="w-full p-3 border rounded-lg mb-3 ${d?'bg-gray-700 text-white':''}">
+                    <option value="">Categoría</option>
+                    ${App.categorias.map(c=>`<option value="${c}" ${r.categoria===c?'selected':''}>${c}</option>`).join('')}
+                </select>
+                <input type="text" id="rOtra" placeholder="Nueva categoría" style="display:none;" class="w-full p-3 border rounded-lg mb-3 ${d?'bg-gray-700 text-white':''}">
+                <textarea id="rDet" placeholder="Detalle" class="w-full p-3 border rounded-lg mb-3 ${d?'bg-gray-700 text-white':''}" rows="3">${r.detalle}</textarea>
+                <div class="flex gap-2">
+                    <button onclick="saveReg(${idx})" class="flex-1 bg-emerald-500 text-white py-3 rounded-lg font-semibold">${edit?'Actualizar':'Guardar'}</button>
+                    <button onclick="cerrarModal()" class="flex-1 ${d?'bg-gray-700':'bg-gray-300'} py-3 rounded-lg font-semibold">Cancelar</button>
+                </div>
+            `);
+        };
 
-            const Dashboard = () => {
-                const balance = calcularBalanceQuincena();
-                return (
-                    <div className={`min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-gray-50'} pb-20`}>
-                        <div className={`${darkMode ? 'bg-gradient-to-r from-emerald-700 to-blue-700' : 'bg-gradient-to-r from-emerald-500 to-blue-600'} text-white p-6 rounded-b-3xl shadow-lg`}>
-                            <h1 className="text-2xl font-bold mb-4">📊 Dashboard</h1>
-                            <div className={`${darkMode ? 'bg-gray-800' : 'bg-white/20'} backdrop-blur-sm rounded-xl p-4`}>
-                                <p className="text-sm opacity-90 mb-2">Quincena: {balance.quincena}</p>
-                                <div className="grid grid-cols-3 gap-3">
-                                    <div><p className="text-xs opacity-80">Ingresos</p><p className="text-lg font-bold">Q{balance.ingresos.toFixed(2)}</p></div>
-                                    <div><p className="text-xs opacity-80">Gastos</p><p className="text-lg font-bold">Q{balance.gastos.toFixed(2)}</p></div>
-                                    <div><p className="text-xs opacity-80">Ganancia</p><p className="text-lg font-bold">Q{balance.ganancia.toFixed(2)}</p></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="p-4 grid grid-cols-2 gap-4 mt-4">
-                            {[
-                                { view: 'diezmos', icon: 'DollarSign', label: 'Diezmos', color: 'emerald' },
-                                { view: 'notas', icon: 'FileText', label: 'Notas', color: 'blue' },
-                                { view: 'infoFinanciera', icon: 'FileText', label: 'Info Financiera', color: 'yellow' },
-                                { view: 'ajustes', icon: 'Settings', label: 'Ajustes', color: 'gray' }
-                            ].map(({ view, icon, label, color }) => {
-                                const Icon = Icons[icon];
-                                return (
-                                    <button key={view} onClick={() => setCurrentView(view)} className={`${darkMode ? 'bg-gray-800' : 'bg-white'} p-6 rounded-xl shadow-lg hover:shadow-xl transition`}>
-                                        <div className={`w-8 h-8 mb-2 mx-auto text-${color}-${darkMode ? '400' : '600'}`}><Icon /></div>
-                                        <p className={`font-semibold text-center ${darkMode ? 'text-white' : 'text-gray-800'}`}>{label}</p>
-                                    </button>
-                                );
-                            })}
-                        </div>
-                    </div>
-                );
+        const saveReg = (idx) => {
+            let cat = document.getElementById('rCat').value;
+            if(cat==='Otros'){
+                const nueva = document.getElementById('rOtra').value;
+                if(nueva && !App.categorias.includes(nueva)) App.categorias.push(nueva);
+                cat = nueva || 'Otros';
+            }
+            const reg = {
+                fecha: document.getElementById('rFecha').value,
+                monto: document.getElementById('rMonto').value,
+                tipo: document.getElementById('rTipo').value,
+                categoria: cat,
+                detalle: document.getElementById('rDet').value
             };
+            if(idx!==null) App.registros[idx] = reg;
+            else App.registros.push(reg);
+            cerrarModal();
+            render();
+        };
 
-            const RegistrosDiariosScreen = () => {
-                const [showForm, setShowForm] = useState(false);
-                const [editingId, setEditingId] = useState(null);
-                const [formData, setFormData] = useState({ fecha: new Date().toISOString().split('T')[0], monto: '', tipo: 'Ingreso', categoria: '', detalle: '' });
-                const [nuevaCategoria, setNuevaCategoria] = useState('');
+        const editReg = (i) => abrirFormReg(i);
+        const delReg = (i) => { if(confirm('¿Eliminar?')){ App.registros.splice(i,1); render(); }};
 
-                const handleSubmit = () => {
-                    let catFinal = formData.categoria;
-                    if (formData.categoria === 'Otros' && nuevaCategoria) {
-                        if (!categorias.includes(nuevaCategoria)) setCategorias([...categorias, nuevaCategoria]);
-                        catFinal = nuevaCategoria;
-                    }
-                    
-                    if (editingId) {
-                        setRegistros(registros.map(r => r.id === editingId ? { ...formData, categoria: catFinal, id: editingId } : r));
-                    } else {
-                        setRegistros([...registros, { ...formData, categoria: catFinal, id: Date.now() }]);
-                    }
-                    
-                    setShowForm(false);
-                    setEditingId(null);
-                    setFormData({ fecha: new Date().toISOString().split('T')[0], monto: '', tipo: 'Ingreso', categoria: '', detalle: '' });
-                    setNuevaCategoria('');
-                };
+        const abrirFormViaje = () => {
+            const d = App.darkMode;
+            crearModal(`
+                <h3 class="font-bold mb-4 ${d?'text-white':'text-gray-800'}">Nuevo Viaje</h3>
+                <input type="text" id="vOrigen" placeholder="Origen" class="w-full p-3 border rounded-lg mb-3 ${d?'bg-gray-700 text-white':''}">
+                <input type="text" id="vDestino" placeholder="Destino" class="w-full p-3 border rounded-lg mb-3 ${d?'bg-gray-700 text-white':''}">
+                <input type="text" id="vCliente" placeholder="Cliente" class="w-full p-3 border rounded-lg mb-3 ${d?'bg-gray-700 text-white':''}">
+                <input type="date" id="vFecha" class="w-full p-3 border rounded-lg mb-3 ${d?'bg-gray-700 text-white':''}">
+                <input type="number" id="vCosto" placeholder="Costo (Q)" class="w-full p-3 border rounded-lg mb-3 ${d?'bg-gray-700 text-white':''}">
+                <div class="flex gap-2">
+                    <button onclick="saveViaje()" class="flex-1 bg-emerald-500 text-white py-3 rounded-lg font-semibold">Guardar</button>
+                    <button onclick="cerrarModal()" class="flex-1 ${d?'bg-gray-700':'bg-gray-300'} py-3 rounded-lg font-semibold">Cancelar</button>
+                </div>
+            `);
+        };
 
-                return (
-                    <div className={`min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-gray-50'} pb-20`}>
-                        <div className={`${darkMode ? 'bg-gradient-to-r from-emerald-700 to-blue-700' : 'bg-gradient-to-r from-emerald-500 to-blue-600'} text-white p-6`}>
-                            <h1 className="text-2xl font-bold">📖 Libro Diario</h1>
-                        </div>
-                        <div className="p-4">
-                            <button onClick={() => setShowForm(true)} className="w-full bg-gradient-to-r from-emerald-500 to-blue-600 text-white py-4 rounded-xl font-semibold mb-4 flex items-center justify-center gap-2">
-                                <Icons.Plus /> Añadir Registro
-                            </button>
+        const saveViaje = () => {
+            App.viajes.push({
+                origen: document.getElementById('vOrigen').value,
+                destino: document.getElementById('vDestino').value,
+                cliente: document.getElementById('vCliente').value,
+                fecha: document.getElementById('vFecha').value,
+                costo: document.getElementById('vCosto').value,
+                estado: 'Cotizado'
+            });
+            cerrarModal();
+            render();
+        };
 
-                            {showForm && (
-                                <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl p-4 shadow-lg mb-4`}>
-                                    <h3 className={`font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-800'}`}>{editingId ? 'Editar' : 'Nuevo'} Registro</h3>
-                                    <input type="date" value={formData.fecha} onChange={(e) => setFormData({ ...formData, fecha: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
-                                    <input type="number" placeholder="Monto (Q)" value={formData.monto} onChange={(e) => setFormData({ ...formData, monto: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
-                                    <select value={formData.tipo} onChange={(e) => setFormData({ ...formData, tipo: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`}>
-                                        <option>Ingreso</option>
-                                        <option>Gasto</option>
-                                    </select>
-                                    <select value={formData.categoria} onChange={(e) => setFormData({ ...formData, categoria: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`}>
-                                        <option value="">Seleccionar categoría</option>
-                                        {categorias.map(cat => <option key={cat} value={cat}>{cat}</option>)}
-                                    </select>
-                                    {formData.categoria === 'Otros' && (
-                                        <input type="text" placeholder="Nueva categoría" value={nuevaCategoria} onChange={(e) => setNuevaCategoria(e.target.value)} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
-                                    )}
-                                    <textarea placeholder="Detalle" value={formData.detalle} onChange={(e) => setFormData({ ...formData, detalle: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} rows="3" />
-                                    <div className="flex gap-2">
-                                        <button onClick={handleSubmit} className="flex-1 bg-emerald-500 text-white py-3 rounded-lg font-semibold">{editingId ? 'Actualizar' : 'Guardar'}</button>
-                                        <button onClick={() => { setShowForm(false); setEditingId(null); }} className={`flex-1 ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-300 text-gray-800'} py-3 rounded-lg font-semibold`}>Cancelar</button>
-                                    </div>
-                                </div>
-                            )}
+        const realizarViaje = (i) => {
+            const v = App.viajes[i];
+            v.estado = 'Realizado';
+            App.registros.push({
+                fecha: v.fecha,
+                monto: v.costo,
+                tipo: 'Ingreso',
+                categoria: 'Privado',
+                detalle: `Viaje a ${v.destino}`
+            });
+            render();
+        };
 
-                            <div className="space-y-3">
-                                {[...registros].sort((a, b) => new Date(b.fecha) - new Date(a.fecha)).map(registro => (
-                                    <div key={registro.id} className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl p-4 shadow`}>
-                                        <div className="flex justify-between items-start mb-2">
-                                            <div>
-                                                <p className={`font-semibold ${registro.tipo === 'Ingreso' ? 'text-emerald-600' : 'text-red-600'}`}>
-                                                    {registro.tipo === 'Ingreso' ? '📈' : '📉'} Q{parseFloat(registro.monto).toFixed(2)}
-                                                </p>
-                                                <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>{new Date(registro.fecha).toLocaleDateString('es-GT')}</p>
-                                            </div>
-                                            <div className="flex gap-2">
-                                                <button onClick={() => { setFormData(registro); setEditingId(registro.id); setShowForm(true); }} className="text-blue-600"><Icons.Edit2 /></button>
-                                                <button onClick={() => setRegistros(registros.filter(r => r.id !== registro.id))} className="text-red-600"><Icons.Trash2 /></button>
-                                            </div>
-                                        </div>
-                                        <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}><span className="font-semibold">Categoría:</span> {registro.categoria}</p>
-                                        <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>{registro.detalle}</p>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
+        const abrirFormDiezmo = (idx=null) => {
+            const d = App.darkMode;
+            const edit = idx!==null;
+            const dz = edit ? App.diezmos[idx] : {monto:'',fecha:new Date().toISOString().split('T')[0],tipo:'Transferencia'};
+            crearModal(`
+                <h3 class="font-bold mb-4 ${d?'text-white':'text-gray-800'}">${edit?'Editar':'Nuevo'} Pago</h3>
+                <input type="number" id="dzMon" placeholder="Monto (Q)" value="${dz.monto}" class="w-full p-3 border rounded-lg mb-3 ${d?'bg-gray-700 text-white':''}">
+                <input type="date" id="dzFecha" value="${dz.fecha}" class="w-full p-3 border rounded-lg mb-3 ${d?'bg-gray-700 text-white':''}">
+                <select id="dzTipo" class="w-full p-3 border rounded-lg mb-3 ${d?'bg-gray-700 text-white':''}">
+                    <option ${dz.tipo==='Transferencia'?'selected':''}>Transferencia</option>
+                    <option ${dz.tipo==='Efectivo'?'selected':''}>Efectivo</option>
+                </select>
+                <div class="flex gap-2">
+                    <button onclick="saveDiezmo(${idx})" class="flex-1 bg-emerald-500 text-white py-3 rounded-lg font-semibold">${edit?'Actualizar':'Guardar'}</button>
+                    <button onclick="cerrarModal()" class="flex-1 ${d?'bg-gray-700':'bg-gray-300'} py-3 rounded-lg font-semibold">Cancelar</button>
+                </div>
+            `);
+        };
+
+        const saveDiezmo = (idx) => {
+            const dz = {monto:document.getElementById('dzMon').value, fecha:document.getElementById('dzFecha').value, tipo:document.getElementById('dzTipo').value};
+            if(idx!==null) App.diezmos[idx]=dz;
+            else App.diezmos.push(dz);
+            cerrarModal();
+            render();
+        };
+
+        const editDiezmo = (i) => abrirFormDiezmo(i);
+        const delDiezmo = (i) => { if(confirm('¿Eliminar?')){ App.diezmos.splice(i,1); render(); }};
+
+        const abrirFormInfo = (idx=null) => {
+            const d = App.darkMode;
+            const edit = idx!==null;
+            const info = edit ? App.infoFinanciera[idx] : {banco:'',nombreCuenta:'',numeroCuenta:'',tipoCuenta:'',moneda:'GTQ',numeroRegistrado:'',nit:'',dpi:'',tarjeta:'',codigo:'',fecha:'',codigoApp:'',clienteApp:'',contraseña:'',notas:''};
+            crearModal(`
+                <div class="max-h-[70vh] overflow-y-auto">
+                    <h3 class="font-bold mb-4 ${d?'text-white':'text-gray-800'}">${edit?'Editar':'Nueva'} Cuenta</h3>
+                    <input type="text" id="iBanco" placeholder="Banco" value="${info.banco}" class="w-full p-3 border rounded-lg mb-3 ${d?'bg-gray-700 text-white':''}">
+                    <input type="text" id="iNomCta" placeholder="Nombre Cuenta" value="${info.nombreCuenta}" class="w-full p-3 border rounded-lg mb-3 ${d?'bg-gray-700 text-white':''}">
+                    <input type="text" id="iNumCta" placeholder="Número Cuenta" value="${info.numeroCuenta}" class="w-full p-3 border rounded-lg mb-3 ${d?'bg-gray-700 text-white':''}">
+                    <input type="text" id="iTipoCta" placeholder="Tipo Cuenta" value="${info.tipoCuenta}" class="w-full p-3 border rounded-lg mb-3 ${d?'bg-gray-700 text-white':''}">
+                    <select id="iMoneda" class="w-full p-3 border rounded-lg mb-3 ${d?'bg-gray-700 text-white':''}">
+                        <option value="GTQ" ${info.moneda==='GTQ'?'selected':''}>GTQ</option>
+                        <option value="USD" ${info.moneda==='USD'?'selected':''}>USD</option>
+                    </select>
+                    <input type="text" id="iNumReg" placeholder="Teléfono" value="${info.numeroRegistrado}" class="w-full p-3 border rounded-lg mb-3 ${d?'bg-gray-700 text-white':''}">
+                    <input type="text" id="iNit" placeholder="NIT" value="${info.nit}" class="w-full p-3 border rounded-lg mb-3 ${d?'bg-gray-700 text-white':''}">
+                    <input type="text" id="iDpi" placeholder="DPI" value="${info.dpi}" class="w-full p-3 border rounded-lg mb-3 ${d?'bg-gray-700 text-white':''}">
+                    <input type="text" id="iTarjeta" placeholder="Tarjeta" value="${info.tarjeta}" class="w-full p-3 border rounded-lg mb-3 ${d?'bg-gray-700 text-white':''}">
+                    <input type="text" id="iCodigo" placeholder="Código" value="${info.codigo}" class="w-full p-3 border rounded-lg mb-3 ${d?'bg-gray-700 text-white':''}">
+                    <input type="date" id="iFecha" value="${info.fecha}" class="w-full p-3 border rounded-lg mb-3 ${d?'bg
+-gray-700 text-white':''}">
+                    <input type="text" id="iCodApp" placeholder="Código App" value="${info.codigoApp}" class="w-full p-3 border rounded-lg mb-3 ${d?'bg-gray-700 text-white':''}">
+                    <input type="text" id="iClieApp" placeholder="Cliente App" value="${info.clienteApp}" class="w-full p-3 border rounded-lg mb-3 ${d?'bg-gray-700 text-white':''}">
+                    <input type="password" id="iPass" placeholder="Contraseña" value="${info.contraseña}" class="w-full p-3 border rounded-lg mb-3 ${d?'bg-gray-700 text-white':''}">
+                    <textarea id="iNotas" placeholder="Notas" class="w-full p-3 border rounded-lg mb-3 ${d?'bg-gray-700 text-white':''}" rows="3">${info.notas}</textarea>
+                    <div class="flex gap-2">
+                        <button onclick="saveInfo(${idx})" class="flex-1 bg-emerald-500 text-white py-3 rounded-lg font-semibold">${edit?'Actualizar':'Guardar'}</button>
+                        <button onclick="cerrarModal()" class="flex-1 ${d?'bg-gray-700':'bg-gray-300'} py-3 rounded-lg font-semibold">Cancelar</button>
                     </div>
-                );
-            };
+                </div>
+            `, true);
+        };
 
-            const ViajesScreen = () => {
-                const [showForm, setShowForm] = useState(false);
-                const [formData, setFormData] = useState({ destinoInicial: '', destinoFinal: '', cliente: '', fecha: '', costo: '', estado: 'Cotizado' });
-
-                const handleSubmit = () => {
-                    setViajes([...viajes, { ...formData, id: Date.now() }]);
-                    setShowForm(false);
-                    setFormData({ destinoInicial: '', destinoFinal: '', cliente: '', fecha: '', costo: '', estado: 'Cotizado' });
-                };
-
-                const marcarRealizado = (viaje) => {
-                    setViajes(viajes.map(v => v.id === viaje.id ? { ...v, estado: 'Realizado' } : v));
-                    setRegistros([...registros, { id: Date.now(), fecha: viaje.fecha, monto: viaje.costo, tipo: 'Ingreso', categoria: 'Privado', detalle: `Viaje a ${viaje.destinoFinal}` }]);
-                };
-
-                return (
-                    <div className={`min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-gray-50'} pb-20`}>
-                        <div className={`${darkMode ? 'bg-gradient-to-r from-emerald-700 to-blue-700' : 'bg-gradient-to-r from-emerald-500 to-blue-600'} text-white p-6`}>
-                            <h1 className="text-2xl font-bold">🚗 Viajes</h1>
-                        </div>
-                        <div className="p-4">
-                            <button onClick={() => setShowForm(true)} className="w-full bg-gradient-to-r from-emerald-500 to-blue-600 text-white py-4 rounded-xl font-semibold mb-4 flex items-center justify-center gap-2">
-                                <Icons.Plus /> Nuevo Viaje
-                            </button>
-
-                            {showForm && (
-                                <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl p-4 shadow-lg mb-4`}>
-                                    <h3 className={`font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-800'}`}>Nuevo Viaje</h3>
-                                    <input type="text" placeholder="Destino inicial" value={formData.destinoInicial} onChange={(e) => setFormData({ ...formData, destinoInicial: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
-                                    <input type="text" placeholder="Destino final" value={formData.destinoFinal} onChange={(e) => setFormData({ ...formData, destinoFinal: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
-                                    <input type="text" placeholder="Cliente" value={formData.cliente} onChange={(e) => setFormData({ ...formData, cliente: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
-                                    <input type="date" value={formData.fecha} onChange={(e) => setFormData({ ...formData, fecha: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
-                                    <input type="number" placeholder="Costo (Q)" value={formData.costo} onChange={(e) => setFormData({ ...formData, costo: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
-                                    <div className="flex gap-2">
-                                        <button onClick={handleSubmit} className="flex-1 bg-emerald-500 text-white py-3 rounded-lg font-semibold">Guardar</button>
-                                        <button onClick={() => setShowForm(false)} className={`flex-1 ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-300 text-gray-800'} py-3 rounded-lg font-semibold`}>Cancelar</button>
-                                    </div>
-                                </div>
-                            )}
-
-                            <div className="space-y-3">
-                                {viajes.map(viaje => (
-                                    <div key={viaje.id} className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl p-4 shadow`}>
-                                        <div className="flex justify-between items-start mb-2">
-                                            <div>
-                                                <p className={`font-semibold ${darkMode ? 'text-white' : 'text-gray-800'}`}>{viaje.destinoInicial} → {viaje.destinoFinal}</p>
-                                                <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Cliente: {viaje.cliente}</p>
-                                            </div>
-                                            <span className={`px-3 py-1 rounded-full text-xs font-semibold ${viaje.estado === 'Cotizado' ? 'bg-yellow-100 text-yellow-800' : viaje.estado === 'Programado' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'}`}>{viaje.estado}</span>
-                                        </div>
-                                        <p className="text-lg font-bold text-emerald-600 mb-2">Q{parseFloat(viaje.costo).toFixed(2)}</p>
-                                        {viaje.estado !== 'Realizado' && (
-                                            <button onClick={() => marcarRealizado(viaje)} className="w-full bg-emerald-500 text-white py-2 rounded-lg font-semibold flex items-center justify-center gap-2">
-                                                <Icons.Check /> Marcar como Realizado
-                                            </button>
-                                        )}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                );
-            };
-
-            const CuentasPorCobrarScreen = () => {
-                const [showClientForm, setShowClientForm] = useState(false);
-                const [showDeudaForm, setShowDeudaForm] = useState(false);
-                const [showPagoForm, setShowPagoForm] = useState(false);
-                const [selectedCliente, setSelectedCliente] = useState(null);
-                const [selectedDeuda, setSelectedDeuda] = useState(null);
-                const [clienteForm, setClienteForm] = useState({ nombre: '', telefono: '' });
-                const [deudaForm, setDeudaForm] = useState({ concepto: '', monto: '' });
-                const [pagoForm, setPagoForm] = useState({ monto: '', fecha: new Date().toISOString().split('T')[0] });
-
-                const handleClienteSubmit = () => {
-                    setClientes([...clientes, { ...clienteForm, id: Date.now() }]);
-                    setShowClientForm(false);
-                    setClienteForm({ nombre: '', telefono: '' });
-                };
-
-                const handleDeudaSubmit = () => {
-                    setDeudas([...deudas, { ...deudaForm, id: Date.now(), clienteId: selectedCliente.id, saldo: parseFloat(deudaForm.monto) }]);
-                    setShowDeudaForm(false);
-                    setSelectedCliente(null);
-                    setDeudaForm({ concepto: '', monto: '' });
-                };
-
-                const handlePagoSubmit = () => {
-                    const pago = { ...pagoForm, id: Date.now(), deudaId: selectedDeuda.id };
-                    setPagosDeudas([...pagosDeudas, pago]);
-                    const pagosTotal = [...pagosDeudas, pago].filter(p => p.deudaId === selectedDeuda.id).reduce((sum, p) => sum + parseFloat(p.monto), 0);
-                    setDeudas(deudas.map(d => d.id === selectedDeuda.id ? { ...d, saldo: parseFloat(d.monto) - pagosTotal } : d));
-                    setShowPagoForm(false);
-                    setSelectedDeuda(null);
-                    setPagoForm({ monto: '', fecha: new Date().toISOString().split('T')[0] });
-                };
-
-                return (
-                    <div className={`min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-gray-50'} pb-20`}>
-                        <div className={`${darkMode ? 'bg-gradient-to-r from-emerald-700 to-blue-700' : 'bg-gradient-to-r from-emerald-500 to-blue-600'} text-white p-6`}>
-                            <h1 className="text-2xl font-bold">👥 Cuentas por Cobrar</h1>
-                        </div>
-                        <div className="p-4">
-                            <button onClick={() => setShowClientForm(true)} className="w-full bg-gradient-to-r from-emerald-500 to-blue-600 text-white py-4 rounded-xl font-semibold mb-4 flex items-center justify-center gap-2">
-                                <Icons.Plus /> Nuevo Cliente
-                            </button>
-
-                            {showClientForm && (
-                                <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl p-4 shadow-lg mb-4`}>
-                                    <h3 className={`font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-800'}`}>Nuevo Cliente</h3>
-                                    <input type="text" placeholder="Nombre" value={clienteForm.nombre} onChange={(e) => setClienteForm({ ...clienteForm, nombre: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
-                                    <input type="text" placeholder="Teléfono" value={clienteForm.telefono} onChange={(e) => setClienteForm({ ...clienteForm, telefono: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
-                                    <div className="flex gap-2">
-                                        <button onClick={handleClienteSubmit} className="flex-1 bg-emerald-500 text-white py-3 rounded-lg font-semibold">Guardar</button>
-                                        <button onClick={() => setShowClientForm(false)} className={`flex-1 ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-300 text-gray-800'} py-3 rounded-lg font-semibold`}>Cancelar</button>
-                                    </div>
-                                </div>
-                            )}
-
-                            <div className="space-y-3">
-                                {clientes.map(cliente => {
-                                    const deudasCliente = deudas.filter(d => d.clienteId === cliente.id);
-                                    const totalDeuda = deudasCliente.reduce((sum, d) => sum + d.saldo, 0);
-                                    return (
-                                        <div key={cliente.id} className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl p-4 shadow`}>
-                                            <div className="flex justify-between items-start mb-3">
-                                                <div>
-                                                    <p className={`font-semibold ${darkMode ? 'text-white' : 'text-gray-800'}`}>{cliente.nombre}</p>
-                                                    <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>{cliente.telefono}</p>
-                                                </div>
-                                                <p className="text-red-600 font-bold">Q{totalDeuda.toFixed(2)}</p>
-                                            </div>
-                                            <button onClick={() => { setSelectedCliente(cliente); setShowDeudaForm(true); }} className="w-full bg-blue-500 text-white py-2 rounded-lg text-sm font-semibold mb-2">+ Añadir Deuda</button>
-                                            {deudasCliente.map(deuda => (
-                                                <div key={deuda.id} className={`${darkMode ? 'bg-gray-700' : 'bg-gray-50'} rounded-lg p-3 mb-2`}>
-                                                    <div className="flex justify-between items-start mb-2">
-                                                        <div>
-                                                            <p className={`text-sm font-semibold ${darkMode ? 'text-white' : 'text-gray-800'}`}>{deuda.concepto}</p>
-                                                            <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Total: Q{parseFloat(deuda.monto).toFixed(2)}</p>
-                                                        </div>
-                                                        <p className="text-red-600 font-bold text-sm">Q{deuda.saldo.toFixed(2)}</p>
-                                                    </div>
-                                                    <button onClick={() => { setSelectedDeuda(deuda); setShowPagoForm(true); }} className="w-full bg-emerald-500 text-white py-1 rounded text-xs font-semibold">Registrar Pago</button>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    );
-                                })}
-                            </div>
-
-                            {showDeudaForm && selectedCliente && (
-                                <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-                                    <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl p-4 max-w-md w-full`}>
-                                        <h3 className={`font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-800'}`}>Nueva Deuda - {selectedCliente.nombre}</h3>
-                                        <input type="text" placeholder="Concepto" value={deudaForm.concepto} onChange={(e) => setDeudaForm({ ...deudaForm, concepto: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
-                                        <input type="number" placeholder="Monto (Q)" value={deudaForm.monto} onChange={(e) => setDeudaForm({ ...deudaForm, monto: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
-                                        <div className="flex gap-2">
-                                            <button onClick={handleDeudaSubmit} className="flex-1 bg-emerald-500 text-white py-3 rounded-lg font-semibold">Guardar</button>
-                                            <button onClick={() => { setShowDeudaForm(false); setSelectedCliente(null); }} className={`flex-1 ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-300 text-gray-800'} py-3 rounded-lg font-semibold`}>Cancelar</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-
-                            {showPagoForm && selectedDeuda && (
-                                <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-                                    <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl p-4 max-w-md w-full`}>
-                                        <h3 className={`font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-800'}`}>Registrar Pago</h3>
-                                        <p className={`text-sm mb-3 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Saldo: Q{selectedDeuda.saldo.toFixed(2)}</p>
-                                        <input type="number" placeholder="Monto del pago (Q)" value={pagoForm.monto} onChange={(e) => setPagoForm({ ...pagoForm, monto: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
-                                        <input type="date" value={pagoForm.fecha} onChange={(e) => setPagoForm({ ...pagoForm, fecha: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
-                                        <div className="flex gap-2">
-                                            <button onClick={handlePagoSubmit} className="flex-1 bg-emerald-500 text-white py-3 rounded-lg font-semibold">Guardar</button>
-                                            <button onClick={() => { setShowPagoForm(false); setSelectedDeuda(null); }} className={`flex-1 ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-300 text-gray-800'} py-3 rounded-lg font-semibold`}>Cancelar</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                );
-            };
-
-            const DiezmosScreen = () => {
-                const balance = calcularBalanceQuincena();
-                const diezmoSugerido = balance.ganancia * 0.1;
-                const [showForm, setShowForm] = useState(false);
-                const [formData, setFormData] = useState({ monto: '', fecha: new Date().toISOString().split('T')[0], tipo: 'Transferencia' });
-
-                const quincena = getQuincenaActual();
-                const diezmosPagadosQuincena = diezmos.filter(d => {
-                    const fecha = new Date(d.fecha);
-                    return fecha >= quincena.inicio && fecha <= quincena.fin;
-                }).reduce((sum, d) => sum + parseFloat(d.monto), 0);
-
-                const diezmoFaltante = Math.max(0, diezmoSugerido - diezmosPagadosQuincena);
-
-                const handleSubmit = () => {
-                    setDiezmos([...diezmos, { ...formData, id: Date.now(), quincena: balance.quincena }]);
-                    setShowForm(false);
-                    setFormData({ monto: '', fecha: new Date().toISOString().split('T')[0], tipo: 'Transferencia' });
-                };
-
-                return (
-                    <div className={`min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-gray-50'} pb-20`}>
-                        <div className={`${darkMode ? 'bg-gradient-to-r from-emerald-700 to-blue-700' : 'bg-gradient-to-r from-emerald-500 to-blue-600'} text-white p-6`}>
-                            <h1 className="text-2xl font-bold mb-4">💰 Diezmos</h1>
-                            <div className={`${darkMode ? 'bg-gray-800' : 'bg-white/20'} backdrop-blur-sm rounded-xl p-4`}>
-                                <p className="text-sm opacity-90 mb-2">Quincena: {balance.quincena}</p>
-                                <p className="text-2xl font-bold mb-2">Sugerido: Q{diezmoSugerido.toFixed(2)}</p>
-                                <p className="text-sm">Pagado: Q{diezmosPagadosQuincena.toFixed(2)}</p>
-                                <p className="text-sm">Faltante: Q{diezmoFaltante.toFixed(2)}</p>
-                            </div>
-                        </div>
-                        <div className="p-4">
-                            <button onClick={() => setShowForm(true)} className="w-full bg-gradient-to-r from-emerald-500 to-blue-600 text-white py-4 rounded-xl font-semibold mb-4 flex items-center justify-center gap-2">
-                                <Icons.Plus /> Registrar Pago
-                            </button>
-
-                            {showForm && (
-                                <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl p-4 shadow-lg mb-4`}>
-                                    <h3 className={`font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-800'}`}>Nuevo Pago</h3>
-                                    <input type="number" placeholder="Monto (Q)" value={formData.monto} onChange={(e) => setFormData({ ...formData, monto: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
-                                    <input type="date" value={formData.fecha} onChange={(e) => setFormData({ ...formData, fecha: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
-                                    <select value={formData.tipo} onChange={(e) => setFormData({ ...formData, tipo: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`}>
-                                        <option>Transferencia</option>
-                                        <option>Efectivo</option>
-                                    </select>
-                                    <div className="flex gap-2">
-                                        <button onClick={handleSubmit} className="flex-1 bg-emerald-500 text-white py-3 rounded-lg font-semibold">Guardar</button>
-                                        <button onClick={() => setShowForm(false)} className={`flex-1 ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-300 text-gray-800'} py-3 rounded-lg font-semibold`}>Cancelar</button>
-                                    </div>
-                                </div>
-                            )}
-
-                            <div className="space-y-3">
-                                <h3 className={`font-bold ${darkMode ? 'text-white' : 'text-gray-800'}`}>Historial</h3>
-                                {[...diezmos].sort((a, b) => new Date(b.fecha) - new Date(a.fecha)).map(pago => (
-                                    <div key={pago.id} className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl p-4 shadow`}>
-                                        <div className="flex justify-between items-start">
-                                            <div>
-                                                <p className="font-semibold text-emerald-600">Q{parseFloat(pago.monto).toFixed(2)}</p>
-                                                <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>{new Date(pago.fecha).toLocaleDateString('es-GT')} - {pago.tipo}</p>
-                                            </div>
-                                            <button onClick={() => setDiezmos(diezmos.filter(d => d.id !== pago.id))} className="text-red-600"><Icons.Trash2 /></button>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                );
-            };
-
-            const InfoFinancieraScreen = () => {
-                const [showForm, setShowForm] = useState(false);
-                const [formData, setFormData] = useState({ banco: '', nombreCuenta: '', numeroCuenta: '', notas: '' });
-
-                const handleSubmit = () => {
-                    setCuentasFinancieras([...cuentasFinancieras, { ...formData, id: Date.now() }]);
-                    setShowForm(false);
-                    setFormData({ banco: '', nombreCuenta: '', numeroCuenta: '', notas: '' });
-                };
-
-                return (
-                    <div className={`min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-gray-50'} pb-20`}>
-                        <div className={`${darkMode ? 'bg-gradient-to-r from-emerald-700 to-blue-700' : 'bg-gradient-to-r from-emerald-500 to-blue-600'} text-white p-6`}>
-                            <h1 className="text-2xl font-bold">🏦 Info Financiera</h1>
-                        </div>
-                        <div className="p-4">
-                            <button onClick={() => setShowForm(true)} className="w-full bg-gradient-to-r from-emerald-500 to-blue-600 text-white py-4 rounded-xl font-semibold mb-4 flex items-center justify-center gap-2">
-                                <Icons.Plus /> Nueva Cuenta
-                            </button>
-
-                            {showForm && (
-                                <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl p-4 shadow-lg mb-4`}>
-                                    <h3 className={`font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-800'}`}>Nueva Cuenta</h3>
-                                    <input type="text" placeholder="Banco" value={formData.banco} onChange={(e) => setFormData({ ...formData, banco: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
-                                    <input type="text" placeholder="Nombre de cuenta" value={formData.nombreCuenta} onChange={(e) => setFormData({ ...formData, nombreCuenta: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
-                                    <input type="text" placeholder="Número de cuenta" value={formData.numeroCuenta} onChange={(e) => setFormData({ ...formData, numeroCuenta: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} />
-                                    <textarea placeholder="Notas" value={formData.notas} onChange={(e) => setFormData({ ...formData, notas: e.target.value })} className={`w-full p-3 border rounded-lg mb-3 ${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-white'}`} rows="3" />
-                                    <div className="flex gap-2">
-                                        <button onClick={handleSubmit} className="flex-1 bg-emerald-500 text-white py-3 rounded-lg font-semibold">Guardar</button>
-                                        <button onClick={() => setShowForm(false)} className={`flex-1 ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-300 text-gray-800'} py-3 rounded-lg font-semibold`}>Cancelar</button>
-                                    </div>
-                                </div>
-                            )}
-
-                            <div className="space-y-3">
-                                {cuentasFinancieras.map(cuenta => (
-                                    <div key={cuenta.id} className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl p-4 shadow`}>
-                                        <div className="flex justify-between">
-                                            <div>
-                                                <p className={`font-semibold ${darkMode ? 'text-white' : 'text-gray-800'}`}>{cuenta.banco}</p>
-                                                <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>{cuenta.nombreCuenta}</p>
-                                                <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>{cuenta.numeroCuenta}</p>
-                                            </div>
-                                            <button onClick={() => setCuentasFinancieras(cuentasFinancieras.filter(c => c.id !== cuenta.id))} className="text-red-600"><Icons.Trash2 /></button>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                );
-            };
-
-            const NotasScreen = () => {
-                const [showForm, setShowForm] = useState(false);
-                const [formData, setFormData] = useState({ titulo: '', contenido: '' });
-
-                const handleSubmit = () => {
-                    setNotas([...notas, { ...formData, id: Date.now(), fecha: new Date().toISOString() }]);
-                    setShowForm(false);
-                    setFormData({ titulo: '', contenido: '' });
-                };
-
-                return (
-                    <div className={`min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-gray-50'} pb-20`}>
-                        <div className={`${darkMode ? 'bg-gradient-to-r from-emerald-700 to-blue-700' : 'bg-gradient-to-r from-emerald-500 to-blue-600'} text
+        const saveInfo = (idx) => {
+            const info = {
+                banco:document.getElementById('iBanco').value,
+                nombreCuenta:document.getElementById('iNomCta').value,
+                numeroCuenta:document.getElementById('iNumCta').value,
+                tipoCuenta:document.getElementById('iTipoCta').value,
+                moneda:document.getElementById('iMoneda').value,
+                numeroRegistrado:document.getElementById('iNumReg').value,
+                nit:document.getElementById('iNit').value,
+                dpi:document.getElementById('iDp
